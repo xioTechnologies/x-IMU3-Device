@@ -41,6 +41,7 @@ void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteC
 const Ximu3SettingsValues* Ximu3SettingsGet(Ximu3Settings * const settings);
 void Ximu3SettingsSet(Ximu3Settings * const settings, const Ximu3SettingsIndex index, const void* const value, const bool overrideReadOnly);
 void Ximu3SettingsSave(Ximu3Settings * const settings);
+bool Ximu3SettingsApplyPending(Ximu3Settings * const settings, const Ximu3SettingsIndex index);
 
 #endif
 

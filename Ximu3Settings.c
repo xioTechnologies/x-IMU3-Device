@@ -149,5 +149,19 @@ void Ximu3SettingsSave(Ximu3Settings * const settings) {
     }
 }
 
+/**
+ * @brief Returns true if apply pending.  Calling this function will reset the
+ * flag.
+ * @param settings Settings.
+ * @param index Index.
+ * @return True if apply pending.
+ */
+bool Ximu3SettingsApplyPending(Ximu3Settings * const settings, const Ximu3SettingsIndex index) {
+    const Metadata metadata = MetadataGet(settings, index);
+    const bool applyPending = *metadata.applyPending;
+    *metadata.applyPending = false;
+    return applyPending;
+}
+
 //------------------------------------------------------------------------------
 // End of file
