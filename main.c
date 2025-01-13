@@ -41,30 +41,27 @@ static Ximu3CommandBridge bridge = {
     .commands = commands,
     .numberOfCommands = sizeof (commands) / sizeof(Ximu3CommandMap),
 };
+static char buffer[256] = {0};
 
 //------------------------------------------------------------------------------
 // Functions
 
 int main(void) {
+    strcpy(buffer, "{\"ping\":null}\n");
     Ximu3CommandTasks(&bridge);
+
     return EXIT_SUCCESS;
 }
 
 static size_t Read(void *const destination, size_t numberOfBytes) {
-    static bool done;
-    if (done) {
-        return 0;
-    }
-    done = true;
-    static const char string[] = "{\"ping\":null}\n";
-    strncpy(destination, string, numberOfBytes);
-    return strlen(string) - 1;
+    strncpy(destination, buffer, numberOfBytes);
+    strcpy(buffer, "");
+    return strlen(destination);;
 }
 
 static void Write(const void *const data, const size_t numberOfBytes) {
-    char string[XIMU3_OBJECT_SIZE];
+    char string[256] = {0};
     memcpy(string, data, numberOfBytes);
-    string[numberOfBytes] = '\0';
     printf("%s", string);
 }
 
