@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 // Includes
 
-#include "Json/Json.h"
+#include "JSON/Json.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include "Ximu3Definitions.h"
