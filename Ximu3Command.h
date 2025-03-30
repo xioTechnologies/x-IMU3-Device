@@ -22,8 +22,8 @@
  */
 typedef struct {
     const char* const name;
-    size_t(*read)(void* const destination, size_t numberOfBytes);
-    void(*write)(const void* const data, const size_t numberOfBytes);
+    size_t(*read)(void* const destination, size_t numberOfBytes, void* const context);
+    void(*write)(const void* const data, const size_t numberOfBytes, void* const context);
     char buffer[XIMU3_OBJECT_SIZE];
     size_t index;
 } Ximu3CommandInterface;
@@ -35,6 +35,7 @@ typedef struct {
     const Ximu3CommandInterface* interface;
     char key[XIMU3_KEY_SIZE];
     char value[XIMU3_VALUE_SIZE];
+    void* context;
 } Ximu3CommandResponse;
 
 /**
@@ -42,7 +43,7 @@ typedef struct {
  */
 typedef struct {
     const char* const key;
-    void (*callback)(const char* * const value, Ximu3CommandResponse * const response);
+    void (*callback)(const char* * const value, Ximu3CommandResponse * const response, void* const context);
 } Ximu3CommandMap;
 
 /**
@@ -54,10 +55,11 @@ typedef struct {
     const Ximu3CommandMap * const commands;
     const int numberOfCommands;
     Ximu3Settings * const settings; // NULL if unused
-    bool(*overrideReadOnly)(void); // NULL if unused
-    void(*writeEpilogue)(const Ximu3SettingsIndex index); // NULL if unused
-    void(*unknown)(const char* const key, const char* * const value, Ximu3CommandResponse * const response); // NULL if unused
-    void(*error)(const char* const error); // NULL if unused
+    bool(*overrideReadOnly)(void* const context); // NULL if unused
+    void(*writeEpilogue)(const Ximu3SettingsIndex index, void* const context); // NULL if unused
+    void(*unknown)(const char* const key, const char* * const value, Ximu3CommandResponse * const response, void* const context); // NULL if unused
+    void(*error)(const char* const error, void* const context); // NULL if unused
+    void* const context;
 } Ximu3CommandBridge;
 
 //------------------------------------------------------------------------------

@@ -49,7 +49,7 @@ static void Receive(Ximu3CommandBridge * const bridge, Ximu3CommandInterface * c
 
         // Read data
         uint8_t data[XIMU3_OBJECT_SIZE];
-        const size_t numberOfBytes = interface->read(data, sizeof (data));
+        const size_t numberOfBytes = interface->read(data, sizeof (data), bridge->context);
         if (numberOfBytes == 0) {
             break;
         }
@@ -122,13 +122,13 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
     }
 
     // Initialise response
-    Ximu3CommandResponse response = {.interface = interface, .value = "null"};
+    Ximu3CommandResponse response = {.interface = interface, .value = "null", .context = bridge->context};
     snprintf(response.key, sizeof (response.key), "%s", key);
 
     // Commands
     for (int index = 0; index < bridge->numberOfCommands; index++) {
         if (KeyCompare(key, bridge->commands[index].key)) {
-            bridge->commands[index].callback(&value, &response);
+            bridge->commands[index].callback(&value, &response, bridge->context);
             return;
         }
     }
@@ -147,7 +147,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
             }
 
             // Write
-            const bool overrideReadOnly = bridge->overrideReadOnly == NULL ? false : bridge->overrideReadOnly();
+            const bool overrideReadOnly = bridge->overrideReadOnly == NULL ? false : bridge->overrideReadOnly(bridge->context);
             if (metadata.readOnly && (overrideReadOnly == false)) {
                 Ximu3CommandRespondError(&response, "Unable to write read-only setting");
                 return;
@@ -158,7 +158,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
                 return;
             }
             if (bridge->writeEpilogue != NULL) {
-                bridge->writeEpilogue(index);
+                bridge->writeEpilogue(index, bridge->context);
             }
             Ximu3SettingsJsonGetValue(bridge->settings, response.value, sizeof (response.value), index);
             Ximu3CommandRespond(&response);
@@ -168,7 +168,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
 
     // Unknown command
     if (bridge->unknown != NULL) {
-        bridge->unknown(key, &value, &response);
+        bridge->unknown(key, &value, &response, bridge->context);
         return;
     }
     Ximu3CommandRespondError(&response, "Unknown command");
@@ -246,7 +246,7 @@ int Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * cons
 void Ximu3CommandRespond(Ximu3CommandResponse * const response) {
     char string[XIMU3_OBJECT_SIZE];
     snprintf(string, sizeof (string), "{\"%s\":%s}\n", response->key, response->value);
-    response->interface->write(string, strlen(string));
+    response->interface->write(string, strlen(string), response->context);
 }
 
 /**
@@ -285,7 +285,7 @@ static void Error(const Ximu3CommandBridge * const bridge, const char* format, .
     va_start(arguments, format);
     vsnprintf(string, sizeof (string), format, arguments);
     va_end(arguments);
-    bridge->error(string);
+    bridge->error(string, bridge->context);
 }
 
 //------------------------------------------------------------------------------

@@ -16,9 +16,9 @@
 //------------------------------------------------------------------------------
 // Function declarations
 
-static size_t UsbRead(void *const destination, size_t numberOfBytes);
+static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const context);
 
-static void UsbWrite(const void *const data, const size_t numberOfBytes);
+static void UsbWrite(const void *const data, const size_t numberOfBytes, void *const context);
 
 static void NvmRead(uint32_t address, void *const destination, size_t numberOfBytes);
 
@@ -28,17 +28,17 @@ static void InitialiseEpilogue(void);
 
 static void DefaultsEpilogue(void);
 
-static bool OverrideReadOnly(void);
+static bool OverrideReadOnly(void *const context);
 
-static void WriteEpilogue(const Ximu3SettingsIndex index);
+static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context);
 
-static void Error(const char *const error);
+static void Error(const char *const error, void *const context);
 
-static void Ping(const char * *const value, Ximu3CommandResponse *const response);
+static void Ping(const char * *const value, Ximu3CommandResponse *const response, void *const context);
 
-static void Factory(const char * *const value, Ximu3CommandResponse *const response);
+static void Factory(const char * *const value, Ximu3CommandResponse *const response, void *const context);
 
-static void Shutdown(const char * *const value, Ximu3CommandResponse *const response);
+static void Shutdown(const char * *const value, Ximu3CommandResponse *const response, void *const context);
 
 //------------------------------------------------------------------------------
 // Variables
@@ -99,7 +99,8 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
-static size_t UsbRead(void *const destination, size_t numberOfBytes) {
+static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const context) {
+    (void) context; // avoid compiler warning
     static const char *messages[] = {
         "\n",
         "{\"a\"\n",
@@ -130,7 +131,8 @@ static size_t UsbRead(void *const destination, size_t numberOfBytes) {
     return messageLength;
 }
 
-static void UsbWrite(const void *const data, const size_t numberOfBytes) {
+static void UsbWrite(const void *const data, const size_t numberOfBytes, void *const context) {
+    (void) context; // avoid compiler warning
     fwrite(data, 1, numberOfBytes, stdout);
     fflush(stdout);
 }
@@ -154,28 +156,33 @@ static void DefaultsEpilogue(void) {
     Ximu3SettingsSet(&settings, Ximu3SettingsIndexFirmwareVersion, "v1.0.0", true);
 }
 
-static bool OverrideReadOnly(void) {
+static bool OverrideReadOnly(void *const context) {
+    (void) context; // avoid compiler warning
     return factoryMode;
 }
 
-static void WriteEpilogue(const Ximu3SettingsIndex index) {
+static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context) {
     (void) index; // avoid compiler warning
+    (void) context; // avoid compiler warning
     Ximu3SettingsSave(&settings);
 }
 
-static void Error(const char *const error) {
+static void Error(const char *const error, void *const context) {
+    (void) context; // avoid compiler warning
     printf("Error: %s\n", error);
     fflush(stdout);
 }
 
-static void Ping(const char * *const value, Ximu3CommandResponse *const response) {
+static void Ping(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
+    (void) context; // avoid compiler warning
     if (Ximu3CommandParseNull(value, response) != 0) {
         return;
     }
     Ximu3CommandRespondPing(response, Ximu3SettingsGet(&settings)->deviceName, Ximu3SettingsGet(&settings)->serialNumber);
 }
 
-static void Factory(const char * *const value, Ximu3CommandResponse *const response) {
+static void Factory(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
+    (void) context; // avoid compiler warning
     if (Ximu3CommandParseNull(value, response) != 0) {
         return;
     }
@@ -183,7 +190,8 @@ static void Factory(const char * *const value, Ximu3CommandResponse *const respo
     Ximu3CommandRespond(response);
 }
 
-static void Shutdown(const char * *const value, Ximu3CommandResponse *const response) {
+static void Shutdown(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
+    (void) context; // avoid compiler warning
     if (Ximu3CommandParseNull(value, response) != 0) {
         return;
     }
