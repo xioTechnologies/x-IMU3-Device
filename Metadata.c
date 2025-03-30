@@ -48,7 +48,7 @@ const size_t sizes[] = {
 
 const void* const defaults[] = {
     (void*) (&(char[32]) {"Unknown"}),
-    (void*) (&(float) {1.0f}),
+    (void*) (&(float) {0.0f}),
     (void*) (&(float) {1.0f}),
     (void*) (&(char[32]) {"x-IMU3"}),
     (void*) (&(char[16]) {"Unknown"}),

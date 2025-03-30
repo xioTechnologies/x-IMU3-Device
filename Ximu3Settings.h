@@ -22,13 +22,14 @@
  * @brief Settings.
  */
 typedef struct {
-    const int nvmStartAddress;
-    void(*nvmRead)(const uint32_t address, void* const destination, size_t numberOfBytes); // NULL if unused
-    void(*nvmWrite)(const uint32_t address, const void* const data, const size_t numberOfBytes); // NULL if unused
-    void(*initialiseEpilogue)(void); // NULL if unused
-    void(*defaultsEpilogue)(void); // NULL if unused
+    const uint32_t nvmStartAddress;
+    void(*nvmRead)(const uint32_t address, void* const destination, size_t numberOfBytes, void* const context); // NULL if unused
+    void(*nvmWrite)(const uint32_t address, const void* const data, const size_t numberOfBytes, void* const context); // NULL if unused
+    void(*initialiseEpilogue)(void* const context); // NULL if unused
+    void(*defaultsEpilogue)(void* const context); // NULL if unused
     Ximu3SettingsValues values; // private
     bool applyPendings[XIMU3_NUMBER_OF_SETTINGS]; // private
+    void* context;
 } Ximu3Settings;
 
 //------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
     memset(&blank, 0xFF, sizeof (blank));
     settings->values = blank;
     if (settings->nvmRead != NULL) {
-        settings->nvmRead(settings->nvmStartAddress, &settings->values, sizeof (settings->values));
+        settings->nvmRead(settings->nvmStartAddress, &settings->values, sizeof (settings->values), settings->context);
     }
 
     // Load defaults if NVM blank
@@ -47,7 +47,7 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
 
     // Epilogue
     if (settings->initialiseEpilogue != NULL) {
-        settings->initialiseEpilogue();
+        settings->initialiseEpilogue(settings->context);
     }
 }
 
@@ -69,7 +69,7 @@ void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteC
 
     // Epilogue
     if (settings->defaultsEpilogue != NULL) {
-        settings->defaultsEpilogue();
+        settings->defaultsEpilogue(settings->context);
     }
 }
 
@@ -150,7 +150,7 @@ static void WriteString(char* const destination, const size_t destinationSize, c
  */
 void Ximu3SettingsSave(Ximu3Settings * const settings) {
     if (settings->nvmWrite != NULL) {
-        settings->nvmWrite(settings->nvmStartAddress, &settings->values, sizeof (settings->values));
+        settings->nvmWrite(settings->nvmStartAddress, &settings->values, sizeof (settings->values), settings->context);
     }
 }
 

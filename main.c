@@ -20,13 +20,13 @@ static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const
 
 static void UsbWrite(const void *const data, const size_t numberOfBytes, void *const context);
 
-static void NvmRead(uint32_t address, void *const destination, size_t numberOfBytes);
+static void NvmRead(uint32_t address, void *const destination, size_t numberOfBytes, void *const context);
 
-static void NvmWrite(const uint32_t address, const void *const data, const size_t numberOfBytes);
+static void NvmWrite(const uint32_t address, const void *const data, const size_t numberOfBytes, void *const context);
 
-static void InitialiseEpilogue(void);
+static void InitialiseEpilogue(void *const context);
 
-static void DefaultsEpilogue(void);
+static void DefaultsEpilogue(void *const context);
 
 static bool OverrideReadOnly(void *const context);
 
@@ -44,11 +44,7 @@ static void Shutdown(const char * *const value, Ximu3CommandResponse *const resp
 // Variables
 
 static Ximu3CommandInterface interfaces[] = {
-    {
-        .name = "USB",
-        .read = UsbRead,
-        .write = UsbWrite,
-    },
+    {.name = "USB", .read = UsbRead, .write = UsbWrite},
 };
 
 static const Ximu3CommandMap commands[] = {
@@ -95,7 +91,6 @@ int main(void) {
     while (shutdown == false) {
         Ximu3CommandTasks(&bridge);
     }
-
     return EXIT_SUCCESS;
 }
 
@@ -137,21 +132,25 @@ static void UsbWrite(const void *const data, const size_t numberOfBytes, void *c
     fflush(stdout);
 }
 
-static void NvmRead(uint32_t address, void *const destination, size_t numberOfBytes) {
+static void NvmRead(uint32_t address, void *const destination, size_t numberOfBytes, void *const context) {
+    (void) context; // avoid compiler warning
     memcpy(destination, &nvmMemory[address], numberOfBytes);
 }
 
-static void NvmWrite(const uint32_t address, const void *const data, const size_t numberOfBytes) {
+static void NvmWrite(const uint32_t address, const void *const data, const size_t numberOfBytes, void *const context) {
+    (void) context; // avoid compiler warning
     memcpy(&nvmMemory[address], (void *) data, numberOfBytes);
 }
 
-static void InitialiseEpilogue(void) {
+static void InitialiseEpilogue(void *const context) {
+    (void) context; // avoid compiler warning
     if (strncmp(Ximu3SettingsGet(&settings)->firmwareVersion, firmwareVersion, sizeof (firmwareVersion)) != 0) {
         Ximu3SettingsDefaults(&settings, false);
     }
 }
 
-static void DefaultsEpilogue(void) {
+static void DefaultsEpilogue(void *const context) {
+    (void) context; // avoid compiler warning
     Ximu3SettingsSet(&settings, Ximu3SettingsIndexSerialNumber, "01234567", true);
     Ximu3SettingsSet(&settings, Ximu3SettingsIndexFirmwareVersion, "v1.0.0", true);
 }

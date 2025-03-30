@@ -59,7 +59,7 @@ typedef struct {
     void(*writeEpilogue)(const Ximu3SettingsIndex index, void* const context); // NULL if unused
     void(*unknown)(const char* const key, const char* * const value, Ximu3CommandResponse * const response, void* const context); // NULL if unused
     void(*error)(const char* const error, void* const context); // NULL if unused
-    void* const context;
+    void* context;
 } Ximu3CommandBridge;
 
 //------------------------------------------------------------------------------
