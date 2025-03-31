@@ -12,7 +12,6 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdint.h>
 #include "Ximu3Definitions.h"
 
 //------------------------------------------------------------------------------
@@ -22,11 +21,10 @@
  * @brief Settings.
  */
 typedef struct {
-    const uint32_t nvmStartAddress;
-    void(*nvmRead)(const uint32_t address, void* const destination, size_t numberOfBytes, void* const context); // NULL if unused
-    void(*nvmWrite)(const uint32_t address, const void* const data, const size_t numberOfBytes, void* const context); // NULL if unused
-    void(*initialiseEpilogue)(void* const context); // NULL if unused
-    void(*defaultsEpilogue)(void* const context); // NULL if unused
+    void(*nvmRead)(void* const destination, size_t numberOfBytes, void* const context); // NULL if unused
+    void(*nvmWrite)(const void* const data, const size_t numberOfBytes, void* const context); // NULL if unused
+    void(*initialiseEpilogue)(const bool nvmBlank, void* const context); // NULL if unused
+    void(*defaultsEpilogue)(const bool preservedOverwriten, void* const context); // NULL if unused
     Ximu3SettingsValues values; // private
     bool applyPendings[XIMU3_NUMBER_OF_SETTINGS]; // private
     void* context;
@@ -36,7 +34,7 @@ typedef struct {
 // Function declarations
 
 void Ximu3SettingsInitialise(Ximu3Settings * const settings);
-void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteCalibration);
+void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved);
 const Ximu3SettingsValues* Ximu3SettingsGet(Ximu3Settings * const settings);
 void Ximu3SettingsSet(Ximu3Settings * const settings, const Ximu3SettingsIndex index, const void* const value, const bool overrideReadOnly);
 void Ximu3SettingsSave(Ximu3Settings * const settings);

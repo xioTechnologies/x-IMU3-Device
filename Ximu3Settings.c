@@ -28,15 +28,16 @@ static void WriteString(char* const destination, const size_t destinationSize, c
 void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
 
     // Read values from NVM
-    Ximu3SettingsValues blank;
-    memset(&blank, 0xFF, sizeof (blank));
-    settings->values = blank;
+    Ximu3SettingsValues blankValues;
+    memset(&blankValues, 0xFF, sizeof (blankValues));
+    settings->values = blankValues;
     if (settings->nvmRead != NULL) {
-        settings->nvmRead(settings->nvmStartAddress, &settings->values, sizeof (settings->values), settings->context);
+        settings->nvmRead(&settings->values, sizeof (settings->values), settings->context);
     }
 
     // Load defaults if NVM blank
-    if (memcmp(&settings->values, &blank, sizeof (settings->values)) == 0) {
+    const bool nvmBlank = memcmp(&settings->values, &blankValues, sizeof (settings->values)) == 0;
+    if (nvmBlank) {
         Ximu3SettingsDefaults(settings, true);
     }
 
@@ -47,21 +48,21 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
 
     // Epilogue
     if (settings->initialiseEpilogue != NULL) {
-        settings->initialiseEpilogue(settings->context);
+        settings->initialiseEpilogue(nvmBlank, settings->context);
     }
 }
 
 /**
  * @brief Loads defaults.
  * @param settings Settings.
- * @param overwriteCalibration True to overwrite calibration.
+ * @param overwritePreserved True to overwrite preserved settings.
  */
-void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteCalibration) {
+void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved) {
 
     // Loads defaults
     for (size_t index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
         const Metadata metadata = MetadataGet(settings, index);
-        if (metadata.calibration && (overwriteCalibration == false)) {
+        if (metadata.preserved && (overwritePreserved == false)) {
             continue;
         }
         Ximu3SettingsSet(settings, index, metadata.defaultValue, true);
@@ -69,7 +70,7 @@ void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteC
 
     // Epilogue
     if (settings->defaultsEpilogue != NULL) {
-        settings->defaultsEpilogue(settings->context);
+        settings->defaultsEpilogue(overwritePreserved, settings->context);
     }
 }
 
@@ -150,7 +151,7 @@ static void WriteString(char* const destination, const size_t destinationSize, c
  */
 void Ximu3SettingsSave(Ximu3Settings * const settings) {
     if (settings->nvmWrite != NULL) {
-        settings->nvmWrite(settings->nvmStartAddress, &settings->values, sizeof (settings->values), settings->context);
+        settings->nvmWrite(&settings->values, sizeof (settings->values), settings->context);
     }
 }
 

@@ -5,39 +5,39 @@
     ],
     "settings": [
         {
+            "name": "Serial number",
+            "declaration": "char name[16]",
+            "default": "{\"Unknown\"}",
+            "preserved": true
+        },
+        {
             "name": "Calibration date",
             "declaration": "char name[32]",
             "default": "{\"Unknown\"}",
-            "calibration": true
+            "preserved": true
         },
         {
             "name": "Offset",
             "declaration": "float name",
             "default": "{0.0f}",
-            "calibration": true
+            "preserved": true
         },
         {
             "name": "Sensitivity",
             "declaration": "float name",
             "default": "{1.0f}",
-            "calibration": true
-        },
-        {
-            "name": "Device name",
-            "declaration": "char name[32]",
-            "default": "{\"x-IMU3\"}"
-        },
-        {
-            "name": "Serial number",
-            "declaration": "char name[16]",
-            "default": "{\"Unknown\"}",
-            "read only": true
+            "preserved": true
         },
         {
             "name": "Firmware version",
             "declaration": "char name[32]",
             "default": "{\"Unknown\"}",
-            "read only": true
+            "read-only": true
+        },
+        {
+            "name": "Device name",
+            "declaration": "char name[32]",
+            "default": "{\"Twintig\"}"
         },
         {
             "name": "Binary mode",

@@ -100,7 +100,7 @@ typedef struct {{
     const MetadataType type;
     const size_t size;
     const void* const defaultValue;
-    const bool calibration;
+    const bool preserved;
     const bool readOnly;
     bool* const applyPending;
 }} Metadata;
@@ -124,9 +124,9 @@ sizes = "\n".join([f"    sizeof (((Ximu3SettingsValues *) 0)->{camel_case(s['nam
 
 defaults = "\n".join([f"    (void*) (&({s['declaration'].replace(' name', '')}) {s['default']})," for s in settings])
 
-calibrations = "\n".join([f"    {str(bool(s.get('calibration'))).lower()}," for s in settings])
+preserveds = "\n".join([f"    {str(bool(s.get('preserved'))).lower()}," for s in settings])
 
-read_onlys = "\n".join([f"    {str(bool(s.get('calibration')) or bool(s.get('read only'))).lower()}," for s in settings])
+read_onlys = "\n".join([f"    {str(bool(s.get('preserved')) or bool(s.get('read-only'))).lower()}," for s in settings])
 
 apply_pendings = "\n".join(["    true," for _ in settings])
 
@@ -161,8 +161,8 @@ const void* const defaults[] = {{
 {defaults}
 }};
 
-const bool calibrations[] = {{
-{calibrations}
+const bool preserveds[] = {{
+{preserveds}
 }};
 
 const bool readOnlys[] = {{
@@ -184,7 +184,7 @@ Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex in
         .type = types[index],
         .size = sizes[index],
         .defaultValue = defaults[index],
-        .calibration = calibrations[index],
+        .preserved = preserveds[index],
         .readOnly = readOnlys[index],
         .applyPending = &settings->applyPendings[index],
     }};

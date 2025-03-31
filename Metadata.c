@@ -3,32 +3,32 @@
 #include "Metadata.h"
 
 static const char* const names[] = {
+    "Serial Number",
     "Calibration Date",
     "Offset",
     "Sensitivity",
-    "Device Name",
-    "Serial Number",
     "Firmware Version",
+    "Device Name",
     "Binary Mode",
     "Message Rate Divisor",
 };
 
 static const char* const keys[] = {
+    "serial_number",
     "calibration_date",
     "offset",
     "sensitivity",
-    "device_name",
-    "serial_number",
     "firmware_version",
+    "device_name",
     "binary_mode",
     "message_rate_divisor",
 };
 
 const MetadataType types[] = {
     MetadataTypeCharArray,
-    MetadataTypeFloat,
-    MetadataTypeFloat,
     MetadataTypeCharArray,
+    MetadataTypeFloat,
+    MetadataTypeFloat,
     MetadataTypeCharArray,
     MetadataTypeCharArray,
     MetadataTypeBool,
@@ -36,32 +36,32 @@ const MetadataType types[] = {
 };
 
 const size_t sizes[] = {
+    sizeof (((Ximu3SettingsValues *) 0)->serialNumber),
     sizeof (((Ximu3SettingsValues *) 0)->calibrationDate),
     sizeof (((Ximu3SettingsValues *) 0)->offset),
     sizeof (((Ximu3SettingsValues *) 0)->sensitivity),
-    sizeof (((Ximu3SettingsValues *) 0)->deviceName),
-    sizeof (((Ximu3SettingsValues *) 0)->serialNumber),
     sizeof (((Ximu3SettingsValues *) 0)->firmwareVersion),
+    sizeof (((Ximu3SettingsValues *) 0)->deviceName),
     sizeof (((Ximu3SettingsValues *) 0)->binaryMode),
     sizeof (((Ximu3SettingsValues *) 0)->messageRateDivisor),
 };
 
 const void* const defaults[] = {
+    (void*) (&(char[16]) {"Unknown"}),
     (void*) (&(char[32]) {"Unknown"}),
     (void*) (&(float) {0.0f}),
     (void*) (&(float) {1.0f}),
-    (void*) (&(char[32]) {"x-IMU3"}),
-    (void*) (&(char[16]) {"Unknown"}),
     (void*) (&(char[32]) {"Unknown"}),
+    (void*) (&(char[32]) {"Twintig"}),
     (void*) (&(bool) {false}),
     (void*) (&(uint32_t) {1}),
 };
 
-const bool calibrations[] = {
+const bool preserveds[] = {
     true,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -72,27 +72,27 @@ const bool readOnlys[] = {
     true,
     true,
     true,
+    true,
+    true,
     false,
-    true,
-    true,
     false,
     false,
 };
 
 static void* GetValue(Ximu3Settings * const settings, const Ximu3SettingsIndex index) {
     switch (index) {
+        case Ximu3SettingsIndexSerialNumber:
+            return &settings->values.serialNumber;
         case Ximu3SettingsIndexCalibrationDate:
             return &settings->values.calibrationDate;
         case Ximu3SettingsIndexOffset:
             return &settings->values.offset;
         case Ximu3SettingsIndexSensitivity:
             return &settings->values.sensitivity;
-        case Ximu3SettingsIndexDeviceName:
-            return &settings->values.deviceName;
-        case Ximu3SettingsIndexSerialNumber:
-            return &settings->values.serialNumber;
         case Ximu3SettingsIndexFirmwareVersion:
             return &settings->values.firmwareVersion;
+        case Ximu3SettingsIndexDeviceName:
+            return &settings->values.deviceName;
         case Ximu3SettingsIndexBinaryMode:
             return &settings->values.binaryMode;
         case Ximu3SettingsIndexMessageRateDivisor:
@@ -110,7 +110,7 @@ Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex in
         .type = types[index],
         .size = sizes[index],
         .defaultValue = defaults[index],
-        .calibration = calibrations[index],
+        .preserved = preserveds[index],
         .readOnly = readOnlys[index],
         .applyPending = &settings->applyPendings[index],
     };

@@ -149,7 +149,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
             // Write
             const bool overrideReadOnly = bridge->overrideReadOnly == NULL ? false : bridge->overrideReadOnly(bridge->context);
             if (metadata.readOnly && (overrideReadOnly == false)) {
-                Ximu3CommandRespondError(&response, "Unable to write read-only setting");
+                Ximu3CommandRespondError(&response, "Read-only");
                 return;
             }
             error = Ximu3SettingsJsonSetKeyValue(bridge->settings, key, &value, overrideReadOnly);

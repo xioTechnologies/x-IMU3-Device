@@ -17,23 +17,23 @@
 #define XIMU3_NUMBER_OF_SETTINGS 8
 
 typedef struct {
+    char serialNumber[16];
     char calibrationDate[32];
     float offset;
     float sensitivity;
-    char deviceName[32];
-    char serialNumber[16];
     char firmwareVersion[32];
+    char deviceName[32];
     bool binaryMode;
     uint32_t messageRateDivisor;
 } Ximu3SettingsValues;
 
 typedef enum {
+    Ximu3SettingsIndexSerialNumber,
     Ximu3SettingsIndexCalibrationDate,
     Ximu3SettingsIndexOffset,
     Ximu3SettingsIndexSensitivity,
-    Ximu3SettingsIndexDeviceName,
-    Ximu3SettingsIndexSerialNumber,
     Ximu3SettingsIndexFirmwareVersion,
+    Ximu3SettingsIndexDeviceName,
     Ximu3SettingsIndexBinaryMode,
     Ximu3SettingsIndexMessageRateDivisor,
 } Ximu3SettingsIndex;

@@ -23,7 +23,7 @@ typedef struct {
     const MetadataType type;
     const size_t size;
     const void* const defaultValue;
-    const bool calibration;
+    const bool preserved;
     const bool readOnly;
     bool* const applyPending;
 } Metadata;
