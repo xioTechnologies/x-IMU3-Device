@@ -148,7 +148,6 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
     if (bridge->settings != NULL) {
         Ximu3SettingsIndex index;
         if (Ximu3SettingsJsonGetIndex(bridge->settings, &index, key) == 0) {
-            const Metadata metadata = MetadataGet(bridge->settings, index);
 
             // Read
             if (JsonParseNull(&value) == JsonErrorOK) {
@@ -158,6 +157,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
             }
 
             // Write
+            const Metadata metadata = MetadataGet(bridge->settings, index);
             const bool overrideReadOnly = bridge->overrideReadOnly == NULL ? false : bridge->overrideReadOnly(bridge->context);
             if (metadata.readOnly && (overrideReadOnly == false)) {
                 Ximu3CommandRespondError(&response, "Read-only");

@@ -75,7 +75,7 @@ void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwriteP
  * @brief Returns values.
  * @return Values.
  */
-const Ximu3SettingsValues* Ximu3SettingsGet(Ximu3Settings * const settings) {
+const Ximu3SettingsValues* Ximu3SettingsGet(const Ximu3Settings * const settings) {
     return &settings->values;
 }
 
@@ -173,7 +173,7 @@ static bool IsNanOrInf(const float value) {
  * @brief Saves to NVM.
  * @param settings Settings.
  */
-void Ximu3SettingsSave(Ximu3Settings * const settings) {
+void Ximu3SettingsSave(const Ximu3Settings * const settings) {
     if (settings->nvmWrite != NULL) {
         settings->nvmWrite(&settings->values, sizeof (settings->values), settings->context);
     }
