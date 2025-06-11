@@ -15,7 +15,8 @@
 //------------------------------------------------------------------------------
 // Function declarations
 
-bool KeyCompare(const char* const keyA, const char* const keyB);
+bool KeyCompare(const char* input, const char* target);
+bool KeyComparePartial(const char* * const input, const char* target);
 
 #endif
 

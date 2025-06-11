@@ -103,31 +103,31 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
 #endif
 
     // Parse object start
-    JsonError error = JsonParseObjectStart(json);
-    if (error != JsonErrorOK) {
+    JsonResult result = JsonParseObjectStart(json);
+    if (result != JsonResultOk) {
         Error(bridge, "%s receive error. Not a JSON object.", interface->name);
         return;
     }
 
     // Parse key
     char key[XIMU3_KEY_SIZE];
-    error = JsonParseKey(json, key, sizeof (key));
-    if (error != JsonErrorOK) {
-        Error(bridge, "%s receive error. Unable able to parse key. %s.", interface->name, JsonErrorToString(error));
+    result = JsonParseKey(json, key, sizeof (key));
+    if (result != JsonResultOk) {
+        Error(bridge, "%s receive error. Unable able to parse key. %s.", interface->name, JsonResultToString(result));
         return;
     }
 
     // Parse value
     const char* value = *json;
-    error = JsonParse(json);
-    if (error != JsonErrorOK) {
-        Error(bridge, "%s receive error. Unable able to parse value. %s.", interface->name, JsonErrorToString(error));
+    result = JsonParse(json);
+    if (result != JsonResultOk) {
+        Error(bridge, "%s receive error. Unable able to parse value. %s.", interface->name, JsonResultToString(result));
         return;
     }
 
     // Parse object end
-    error = JsonParseObjectEnd(json);
-    if (error != JsonErrorOK) {
+    result = JsonParseObjectEnd(json);
+    if (result != JsonResultOk) {
         Error(bridge, "%s receive error. JSON object is not a single key/value pair.", interface->name);
         return;
     }
@@ -150,7 +150,7 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
         if (Ximu3SettingsJsonGetIndex(bridge->settings, &index, key) == 0) {
 
             // Read
-            if (JsonParseNull(&value) == JsonErrorOK) {
+            if (JsonParseNull(&value) == JsonResultOk) {
                 Ximu3SettingsJsonGetValue(bridge->settings, response.value, sizeof (response.value), index);
                 Ximu3CommandRespond(&response);
                 return;
@@ -163,15 +163,32 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
                 Ximu3CommandRespondError(&response, "Read-only");
                 return;
             }
-            error = Ximu3SettingsJsonSetKeyValue(bridge->settings, key, &value, overrideReadOnly);
-            if (error != JsonErrorOK) {
-                Ximu3CommandRespondError(&response, JsonErrorToString(error));
+            result = Ximu3SettingsJsonSetKeyValue(bridge->settings, key, &value, overrideReadOnly);
+            if (result != JsonResultOk) {
+                Ximu3CommandRespondError(&response, JsonResultToString(result));
                 return;
             }
             if (bridge->writeEpilogue != NULL) {
                 bridge->writeEpilogue(index, bridge->context);
             }
             Ximu3SettingsJsonGetValue(bridge->settings, response.value, sizeof (response.value), index);
+            Ximu3CommandRespond(&response);
+            return;
+        }
+
+        // Enumerate
+        const char * keyPointer = key;
+        if (KeyComparePartial(&keyPointer, "enumerate")) {
+            int integer;
+            if (sscanf(keyPointer, "%i", &integer) != 1) {
+                Ximu3CommandRespondError(&response, "Unable to parse index");
+                return;
+            }
+            if (Ximu3SettingsIndexFrom(&index, integer) != Ximu3ResultOk) {
+                Ximu3CommandRespondError(&response, "Invalid index");
+                return;
+            }
+            Ximu3SettingsJsonGetObject(bridge->settings, response.value, sizeof (response.value), integer);
             Ximu3CommandRespond(&response);
             return;
         }
@@ -192,15 +209,15 @@ static void Parse(const Ximu3CommandBridge * const bridge, const Ximu3CommandInt
  * @param destination Destination.
  * @param destinationSize Destination size.
  * @param numberOfBytes Number of bytes in string. NULL if not required.
- * @return 0 if successful.
+ * @return Result.
  */
-int Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes) {
-    const JsonError error = JsonParseString(value, destination, destinationSize, numberOfBytes);
-    if (error != JsonErrorOK) {
-        Ximu3CommandRespondError(response, JsonErrorToString(error));
-        return 1;
+Ximu3Result Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes) {
+    const JsonResult result = JsonParseString(value, destination, destinationSize, numberOfBytes);
+    if (result != JsonResultOk) {
+        Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
     }
-    return 0;
+    return Ximu3ResultOk;
 }
 
 /**
@@ -208,15 +225,15 @@ int Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * co
  * @param value Value.
  * @param response Response.
  * @param number Number.
- * @return 0 if successful.
+ * @return Result.
  */
-int Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * const response, float *const number) {
-    const JsonError error = JsonParseNumber(value, number);
-    if (error != JsonErrorOK) {
-        Ximu3CommandRespondError(response, JsonErrorToString(error));
-        return 1;
+Ximu3Result Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * const response, float *const number) {
+    const JsonResult result = JsonParseNumber(value, number);
+    if (result != JsonResultOk) {
+        Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
     }
-    return 0;
+    return Ximu3ResultOk;
 }
 
 /**
@@ -224,30 +241,30 @@ int Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * co
  * @param value Value.
  * @param response Response.
  * @param boolean Boolean.
- * @return 0 if successful.
+ * @return Result.
  */
-int Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool * const boolean) {
-    const JsonError error = JsonParseBoolean(value, boolean);
-    if (error != JsonErrorOK) {
-        Ximu3CommandRespondError(response, JsonErrorToString(error));
-        return 1;
+Ximu3Result Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool * const boolean) {
+    const JsonResult result = JsonParseBoolean(value, boolean);
+    if (result != JsonResultOk) {
+        Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
     }
-    return 0;
+    return Ximu3ResultOk;
 }
 
 /**
  * @brief Parses null and responds with error if unsuccessful.
  * @param value Value.
  * @param response Response.
- * @return 0 if successful.
+ * @return Result.
  */
-int Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response) {
-    const JsonError error = JsonParseNull(value);
-    if (error != JsonErrorOK) {
-        Ximu3CommandRespondError(response, JsonErrorToString(error));
-        return 1;
+Ximu3Result Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response) {
+    const JsonResult result = JsonParseNull(value);
+    if (result != JsonResultOk) {
+        Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
     }
-    return 0;
+    return Ximu3ResultOk;
 }
 
 /**

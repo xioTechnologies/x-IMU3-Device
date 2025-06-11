@@ -16,6 +16,11 @@
 
 #define XIMU3_NUMBER_OF_SETTINGS 8
 
+typedef enum {
+    Ximu3ResultOk,
+    Ximu3ResultError,
+} Ximu3Result;
+
 typedef struct {
     char serialNumber[16];
     char calibrationDate[32];
@@ -37,5 +42,7 @@ typedef enum {
     Ximu3SettingsIndexBinaryMode,
     Ximu3SettingsIndexMessageRateDivisor,
 } Ximu3SettingsIndex;
+
+Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int integer);
 
 #endif

@@ -57,6 +57,11 @@ contents = f"""\
 
 #define XIMU3_NUMBER_OF_SETTINGS {len(settings)}
 
+typedef enum {{
+    Ximu3ResultOk,
+    Ximu3ResultError,
+}} Ximu3Result;
+
 typedef struct {{
 {values}
 }} Ximu3SettingsValues;
@@ -65,10 +70,41 @@ typedef enum {{
 {index}
 }} Ximu3SettingsIndex;
 
+Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int integer);
+
 #endif
 """
 
 with open("Ximu3Definitions.h", "w") as file:
+    file.write(contents)
+
+# Generate Ximu3Definitions.c
+cases = "\n".join(
+    [
+        f"""\
+        case Ximu3SettingsIndex{pascal_case(s["name"])}:
+            *index = Ximu3SettingsIndex{pascal_case(s["name"])};
+            break;"""
+        for s in settings
+    ]
+)
+
+contents = f"""\
+{preamble}
+
+#include "Ximu3Definitions.h"
+
+Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int integer) {{
+    switch (integer) {{
+{cases}
+        default:
+            return Ximu3ResultError;
+    }}
+    return Ximu3ResultOk;
+}}
+"""
+
+with open("Ximu3Definitions.c", "w") as file:
     file.write(contents)
 
 # Generate Metadata.h

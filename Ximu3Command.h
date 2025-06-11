@@ -66,10 +66,10 @@ typedef struct {
 // Function declarations
 
 void Ximu3CommandTasks(Ximu3CommandBridge * const bridge);
-int Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes);
-int Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * const response, float *const number);
-int Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool *const boolean);
-int Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response);
+Ximu3Result Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes);
+Ximu3Result Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * const response, float *const number);
+Ximu3Result Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool *const boolean);
+Ximu3Result Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response);
 void Ximu3CommandRespond(Ximu3CommandResponse * const response);
 void Ximu3CommandRespondPing(Ximu3CommandResponse * const response, const char* const name, const char* const sn);
 void Ximu3CommandRespondError(Ximu3CommandResponse * const response, const char* const error);
