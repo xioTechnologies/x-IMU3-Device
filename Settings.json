@@ -1,0 +1,53 @@
+{
+    "includes": [
+        "<stdbool.h>",
+        "<stdint.h>"
+    ],
+    "settings": [
+        {
+            "name": "Serial number",
+            "declaration": "char name[16]",
+            "default": "{\"Unknown\"}",
+            "preserved": true
+        },
+        {
+            "name": "Calibration date",
+            "declaration": "char name[32]",
+            "default": "{\"Unknown\"}",
+            "preserved": true
+        },
+        {
+            "name": "Offset",
+            "declaration": "float name",
+            "default": "{0.0f}",
+            "preserved": true
+        },
+        {
+            "name": "Sensitivity",
+            "declaration": "float name",
+            "default": "{1.0f}",
+            "preserved": true
+        },
+        {
+            "name": "Firmware version",
+            "declaration": "char name[32]",
+            "default": "{\"Unknown\"}",
+            "read-only": true
+        },
+        {
+            "name": "Device name",
+            "declaration": "char name[32]",
+            "default": "{\"Twintig\"}"
+        },
+        {
+            "name": "Binary mode",
+            "declaration": "bool name",
+            "default": "{false}"
+        },
+        {
+            "name": "Message rate divisor",
+            "declaration": "uint32_t name",
+            "default": "{1}"
+        }
+    ]
+}
