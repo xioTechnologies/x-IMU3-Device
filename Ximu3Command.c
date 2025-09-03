@@ -57,7 +57,7 @@ static void Receive(Ximu3CommandBridge * const bridge, Ximu3CommandInterface * c
     while (true) {
 
         // Read data
-        uint8_t data[XIMU3_OBJECT_SIZE];
+        uint8_t data[XIMU3_READ_SIZE];
         const size_t numberOfBytes = interface->read(data, sizeof (data), bridge->context);
         if (numberOfBytes == 0) {
             break;

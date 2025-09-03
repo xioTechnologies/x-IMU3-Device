@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define XIMU3_READ_SIZE 2048
+
 #define XIMU3_KEY_SIZE 64
 
 #define XIMU3_VALUE_SIZE 512
