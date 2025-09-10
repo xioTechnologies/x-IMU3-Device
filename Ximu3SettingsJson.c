@@ -163,7 +163,7 @@ JsonResult Ximu3SettingsJsonSetKeyValue(Ximu3Settings * const settings, const ch
 
     // Get index
     Ximu3SettingsIndex index;
-    if (Ximu3SettingsJsonGetIndex(settings, &index, key) != 0) {
+    if (Ximu3SettingsJsonGetIndex(settings, &index, key) != Ximu3ResultOk) {
         return JsonResultOk;
     }
 
