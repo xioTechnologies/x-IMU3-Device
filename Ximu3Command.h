@@ -71,6 +71,7 @@ void Ximu3CommandTasks(Ximu3CommandBridge * const bridge);
 void Ximu3CommandReceive(const Ximu3CommandBridge * const bridge, const Ximu3CommandInterface * const interface, const void* const data, const size_t numberOfBytes);
 Ximu3Result Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes);
 Ximu3Result Ximu3CommandParseNumber(const char* * const value, Ximu3CommandResponse * const response, float *const number);
+Ximu3Result Ximu3CommandParseNumberU64(const char* * const value, Ximu3CommandResponse * const response, uint64_t * const number);
 Ximu3Result Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool *const boolean);
 Ximu3Result Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response);
 void Ximu3CommandRespond(Ximu3CommandResponse * const response);

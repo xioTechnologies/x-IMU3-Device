@@ -7,6 +7,8 @@
 //------------------------------------------------------------------------------
 // Includes
 
+#include <ctype.h>
+#include <inttypes.h>
 #include "JSON/Json.h"
 #include "KeyCompare.h"
 #include "Metadata.h"
@@ -305,6 +307,33 @@ Ximu3Result Ximu3CommandParseNumber(const char* * const value, Ximu3CommandRespo
     const JsonResult result = JsonParseNumber(value, number);
     if (result != JsonResultOk) {
         Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
+    }
+    return Ximu3ResultOk;
+}
+
+/**
+ * @brief Parses number and responds with error if unsuccessful.
+ * @param value Value.
+ * @param response Response.
+ * @param number Number.
+ * @return Result.
+ */
+Ximu3Result Ximu3CommandParseNumberU64(const char* * const value, Ximu3CommandResponse * const response, uint64_t * const number) {
+    char string[XIMU3_VALUE_SIZE];
+    const JsonResult result = JsonParseNumberRaw(value, string, sizeof (string));
+    if (result != JsonResultOk) {
+        Ximu3CommandRespondError(response, JsonResultToString(result));
+        return Ximu3ResultError;
+    }
+    for (size_t index = 0; index < strlen(string); index++) {
+        if (isdigit((int) string[index]) == 0) {
+            Ximu3CommandRespondError(response, "Number must be a 64-bit unsigned integer");
+            return Ximu3ResultError;
+        }
+    }
+    if (sscanf(string, "%" PRIu64, number) != 1) {
+        Ximu3CommandRespondError(response, JsonResultToString(JsonResultUnableToParseNumber));
         return Ximu3ResultError;
     }
     return Ximu3ResultOk;
