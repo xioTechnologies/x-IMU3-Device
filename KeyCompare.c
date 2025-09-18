@@ -43,7 +43,7 @@ bool KeyCompare(const char* input, const char* target) {
 }
 
 /**
- * @brief Returns true if the input key start with the target key.  The
+ * @brief Returns true if the input key start with the target key. The
  * comparison is not case-sensitive and non-alphanumeric characters will be
  * ignored. The input key pointer will be advanced to the first alphanumeric
  * character after the match.
