@@ -7,14 +7,8 @@ Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int i
         case Ximu3SettingsIndexSerialNumber:
             *index = Ximu3SettingsIndexSerialNumber;
             break;
-        case Ximu3SettingsIndexCalibrationDate:
-            *index = Ximu3SettingsIndexCalibrationDate;
-            break;
-        case Ximu3SettingsIndexOffset:
-            *index = Ximu3SettingsIndexOffset;
-            break;
-        case Ximu3SettingsIndexSensitivity:
-            *index = Ximu3SettingsIndexSensitivity;
+        case Ximu3SettingsIndexHardwareVersion:
+            *index = Ximu3SettingsIndexHardwareVersion;
             break;
         case Ximu3SettingsIndexFirmwareVersion:
             *index = Ximu3SettingsIndexFirmwareVersion;
@@ -22,11 +16,26 @@ Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int i
         case Ximu3SettingsIndexDeviceName:
             *index = Ximu3SettingsIndexDeviceName;
             break;
-        case Ximu3SettingsIndexBinaryMode:
-            *index = Ximu3SettingsIndexBinaryMode;
+        case Ximu3SettingsIndexSerialEnabled:
+            *index = Ximu3SettingsIndexSerialEnabled;
             break;
-        case Ximu3SettingsIndexMessageRateDivisor:
-            *index = Ximu3SettingsIndexMessageRateDivisor;
+        case Ximu3SettingsIndexSerialBaudRate:
+            *index = Ximu3SettingsIndexSerialBaudRate;
+            break;
+        case Ximu3SettingsIndexSerialRtsCtsEnabled:
+            *index = Ximu3SettingsIndexSerialRtsCtsEnabled;
+            break;
+        case Ximu3SettingsIndexBinaryModeEnabled:
+            *index = Ximu3SettingsIndexBinaryModeEnabled;
+            break;
+        case Ximu3SettingsIndexUsbDataMessagesEnabled:
+            *index = Ximu3SettingsIndexUsbDataMessagesEnabled;
+            break;
+        case Ximu3SettingsIndexSerialDataMessagesEnabled:
+            *index = Ximu3SettingsIndexSerialDataMessagesEnabled;
+            break;
+        case Ximu3SettingsIndexExampleFloat:
+            *index = Ximu3SettingsIndexExampleFloat;
             break;
         default:
             return Ximu3ResultError;

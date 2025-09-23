@@ -97,14 +97,14 @@ static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const
         "\n",
         "{\"a\"\n",
         "{\"b\":\n",
-        "{\"a\":0,\n",
+        "{\"a\":0,\"b\":0}\n",
         "{\"garbage\":null}\n",
         "{\"ping\":null}\n",
         "{\"firmware_version\":null}\n",
-        "{\"calibration_date\":null}\n",
-        "{\"calibration_date\":\"Today\"}\n", /* invalid write of read-only setting */
+        "{\"hardware_version\":null}\n",
+        "{\"hardware_version\":\"v1.0.0\"}\n", /* invalid write of read-only setting */
         "{\"factory\":null}\n",
-        "{\"calibration_date\":\"Today\"}\n", /* valid write read-only setting in factory mode */
+        "{\"hardware_version\":\"v1.0.0\"}\n", /* valid write read-only setting in factory mode */
         "{\"enumerate_0\":null}\n",
         "{\"enumerate_1\":null}\n",
         "{\"enumerate_2\":null}\n",

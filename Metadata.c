@@ -4,64 +4,82 @@
 
 static const char* const names[] = {
     "Serial Number",
-    "Calibration Date",
-    "Offset",
-    "Sensitivity",
+    "Hardware Version",
     "Firmware Version",
     "Device Name",
-    "Binary Mode",
-    "Message Rate Divisor",
+    "Serial Enabled",
+    "Serial Baud Rate",
+    "Serial RTS/CTS Enabled",
+    "Binary Mode Enabled",
+    "USB Data Messages Enabled",
+    "Serial Data Messages Enabled",
+    "Example Float",
 };
 
 static const char* const keys[] = {
     "serial_number",
-    "calibration_date",
-    "offset",
-    "sensitivity",
+    "hardware_version",
     "firmware_version",
     "device_name",
-    "binary_mode",
-    "message_rate_divisor",
+    "serial_enabled",
+    "serial_baud_rate",
+    "serial_rts_cts_enabled",
+    "binary_mode_enabled",
+    "usb_data_messages_enabled",
+    "serial_data_messages_enabled",
+    "example_float",
 };
 
 const MetadataType types[] = {
     MetadataTypeCharArray,
     MetadataTypeCharArray,
-    MetadataTypeFloat,
-    MetadataTypeFloat,
     MetadataTypeCharArray,
     MetadataTypeCharArray,
     MetadataTypeBool,
     MetadataTypeUint32,
+    MetadataTypeBool,
+    MetadataTypeBool,
+    MetadataTypeBool,
+    MetadataTypeBool,
+    MetadataTypeFloat,
 };
 
 const size_t sizes[] = {
     sizeof (((Ximu3SettingsValues *) 0)->serialNumber),
-    sizeof (((Ximu3SettingsValues *) 0)->calibrationDate),
-    sizeof (((Ximu3SettingsValues *) 0)->offset),
-    sizeof (((Ximu3SettingsValues *) 0)->sensitivity),
+    sizeof (((Ximu3SettingsValues *) 0)->hardwareVersion),
     sizeof (((Ximu3SettingsValues *) 0)->firmwareVersion),
     sizeof (((Ximu3SettingsValues *) 0)->deviceName),
-    sizeof (((Ximu3SettingsValues *) 0)->binaryMode),
-    sizeof (((Ximu3SettingsValues *) 0)->messageRateDivisor),
+    sizeof (((Ximu3SettingsValues *) 0)->serialEnabled),
+    sizeof (((Ximu3SettingsValues *) 0)->serialBaudRate),
+    sizeof (((Ximu3SettingsValues *) 0)->serialRtsCtsEnabled),
+    sizeof (((Ximu3SettingsValues *) 0)->binaryModeEnabled),
+    sizeof (((Ximu3SettingsValues *) 0)->usbDataMessagesEnabled),
+    sizeof (((Ximu3SettingsValues *) 0)->serialDataMessagesEnabled),
+    sizeof (((Ximu3SettingsValues *) 0)->exampleFloat),
 };
 
 const void* const defaults[] = {
-    (void*) (&(char[16]) {"Unknown"}),
     (void*) (&(char[32]) {"Unknown"}),
-    (void*) (&(float) {0.0f}),
-    (void*) (&(float) {1.0f}),
     (void*) (&(char[32]) {"Unknown"}),
-    (void*) (&(char[32]) {"Twintig"}),
+    (void*) (&(char[32]) {"Unknown"}),
+    (void*) (&(char[32]) {"x-IMU3 Device"}),
+    (void*) (&(bool) {true}),
+    (void*) (&(uint32_t) {115200}),
     (void*) (&(bool) {false}),
-    (void*) (&(uint32_t) {1}),
+    (void*) (&(bool) {true}),
+    (void*) (&(bool) {true}),
+    (void*) (&(bool) {true}),
+    (void*) (&(float) {1.0f}),
 };
 
 const bool preserveds[] = {
     true,
     true,
-    true,
-    true,
+    false,
+    false,
+    false,
+    false,
+    false,
     false,
     false,
     false,
@@ -72,8 +90,11 @@ const bool readOnlys[] = {
     true,
     true,
     true,
-    true,
-    true,
+    false,
+    false,
+    false,
+    false,
+    false,
     false,
     false,
     false,
@@ -83,20 +104,26 @@ static void* GetValue(Ximu3Settings * const settings, const Ximu3SettingsIndex i
     switch (index) {
         case Ximu3SettingsIndexSerialNumber:
             return &settings->values.serialNumber;
-        case Ximu3SettingsIndexCalibrationDate:
-            return &settings->values.calibrationDate;
-        case Ximu3SettingsIndexOffset:
-            return &settings->values.offset;
-        case Ximu3SettingsIndexSensitivity:
-            return &settings->values.sensitivity;
+        case Ximu3SettingsIndexHardwareVersion:
+            return &settings->values.hardwareVersion;
         case Ximu3SettingsIndexFirmwareVersion:
             return &settings->values.firmwareVersion;
         case Ximu3SettingsIndexDeviceName:
             return &settings->values.deviceName;
-        case Ximu3SettingsIndexBinaryMode:
-            return &settings->values.binaryMode;
-        case Ximu3SettingsIndexMessageRateDivisor:
-            return &settings->values.messageRateDivisor;
+        case Ximu3SettingsIndexSerialEnabled:
+            return &settings->values.serialEnabled;
+        case Ximu3SettingsIndexSerialBaudRate:
+            return &settings->values.serialBaudRate;
+        case Ximu3SettingsIndexSerialRtsCtsEnabled:
+            return &settings->values.serialRtsCtsEnabled;
+        case Ximu3SettingsIndexBinaryModeEnabled:
+            return &settings->values.binaryModeEnabled;
+        case Ximu3SettingsIndexUsbDataMessagesEnabled:
+            return &settings->values.usbDataMessagesEnabled;
+        case Ximu3SettingsIndexSerialDataMessagesEnabled:
+            return &settings->values.serialDataMessagesEnabled;
+        case Ximu3SettingsIndexExampleFloat:
+            return &settings->values.exampleFloat;
 
     }
     return NULL; // avoid compiler warning

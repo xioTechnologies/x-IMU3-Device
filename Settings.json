@@ -6,26 +6,14 @@
     "settings": [
         {
             "name": "Serial number",
-            "declaration": "char name[16]",
-            "default": "{\"Unknown\"}",
-            "preserved": true
-        },
-        {
-            "name": "Calibration date",
             "declaration": "char name[32]",
             "default": "{\"Unknown\"}",
             "preserved": true
         },
         {
-            "name": "Offset",
-            "declaration": "float name",
-            "default": "{0.0f}",
-            "preserved": true
-        },
-        {
-            "name": "Sensitivity",
-            "declaration": "float name",
-            "default": "{1.0f}",
+            "name": "Hardware version",
+            "declaration": "char name[32]",
+            "default": "{\"Unknown\"}",
             "preserved": true
         },
         {
@@ -37,17 +25,42 @@
         {
             "name": "Device name",
             "declaration": "char name[32]",
-            "default": "{\"Twintig\"}"
+            "default": "{\"x-IMU3 Device\"}"
         },
         {
-            "name": "Binary mode",
+            "name": "Serial enabled",
+            "declaration": "bool name",
+            "default": "{true}"
+        },
+        {
+            "name": "Serial baud rate",
+            "declaration": "uint32_t name",
+            "default": "{115200}"
+        },
+        {
+            "name": "Serial RTS/CTS enabled",
             "declaration": "bool name",
             "default": "{false}"
         },
         {
-            "name": "Message rate divisor",
-            "declaration": "uint32_t name",
-            "default": "{1}"
+            "name": "Binary mode enabled",
+            "declaration": "bool name",
+            "default": "{true}"
+        },
+        {
+            "name": "USB data messages enabled",
+            "declaration": "bool name",
+            "default": "{true}"
+        },
+        {
+            "name": "Serial data messages enabled",
+            "declaration": "bool name",
+            "default": "{true}"
+        },
+        {
+            "name": "Example float",
+            "declaration": "float name",
+            "default": "{1.0f}"
         }
     ]
 }
