@@ -32,6 +32,12 @@ with open("Settings.json") as file:
     includes = object["includes"]
     settings = object["settings"]
 
+preserveds = [s.get("preserved") for s in settings]
+
+for index in range(1, len(preserveds)):
+    if preserveds[index] and not preserveds[index - 1]:
+        raise Exception("Preserved settings must be contiguous")
+
 # Generate Ximu3Definitions.h
 includes = "\n".join([f"#include {i}" for i in includes])
 
