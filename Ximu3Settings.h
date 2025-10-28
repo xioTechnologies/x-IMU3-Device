@@ -21,7 +21,7 @@
  * @brief Settings.
  */
 typedef struct {
-    void (*const nvmRead) (void* const destination, size_t numberOfBytes, void* const context); // NULL if unused
+    void (*const nvmRead) (void* const destination, const size_t numberOfBytes, void* const context); // NULL if unused
     void (*const nvmWrite) (const void* const data, const size_t numberOfBytes, void* const context); // NULL if unused
     void (*const initialiseEpilogue) (void* const context); // NULL if unused
     void (*const defaultsEpilogue) (void* const context); // NULL if unused
