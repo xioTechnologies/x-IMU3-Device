@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 // Includes
 
-#include "KeyCompare.h"
+#include "Key.h"
 #include "Metadata.h"
 #include <stdio.h>
 #include <string.h>
@@ -35,7 +35,7 @@ static JsonResult ParseUint32(Ximu3Settings * const settings, const Ximu3Setting
  */
 Ximu3Result Ximu3SettingsJsonGetIndex(Ximu3Settings * const settings, Ximu3SettingsIndex * const index_, const char* const key) {
     for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
-        if (KeyCompare(key, MetadataGet(settings, index).key)) {
+        if (KeyMatches(key, MetadataGet(settings, index).key)) {
             *index_ = index;
             return Ximu3ResultOk;
         }

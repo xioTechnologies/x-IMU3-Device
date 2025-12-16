@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <inttypes.h>
 #include "JSON/Json.h"
-#include "KeyCompare.h"
+#include "Key.h"
 #include "Metadata.h"
 #include <stdarg.h>
 #include <stdbool.h>
@@ -216,7 +216,7 @@ static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3Com
 
     // Commands
     for (int index = 0; index < bridge->numberOfCommands; index++) {
-        if (KeyCompare(key, bridge->commands[index].key)) {
+        if (KeyMatches(key, bridge->commands[index].key)) {
             bridge->commands[index].callback(&value, &response, bridge->context);
             return;
         }
@@ -256,7 +256,7 @@ static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3Com
 
         // Enumerate
         const char * keyPointer = key;
-        if (KeyComparePartial(&keyPointer, "enumerate")) {
+        if (KeyStartsWith(&keyPointer, "enumerate")) {
             int integer;
             if (sscanf(keyPointer, "%i", &integer) != 1) {
                 Ximu3CommandRespondError(&response, "Unable to parse index");

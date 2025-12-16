@@ -1,11 +1,11 @@
 /**
- * @file KeyCompare.h
+ * @file Key.h
  * @author Seb Madgwick
- * @brief Compares two JSON keys.
+ * @brief JSON key comparison.
  */
 
-#ifndef KEY_COMPARE_H
-#define KEY_COMPARE_H
+#ifndef KEY_H
+#define KEY_H
 
 //------------------------------------------------------------------------------
 // Includes
@@ -15,8 +15,8 @@
 //------------------------------------------------------------------------------
 // Function declarations
 
-bool KeyCompare(const char* input, const char* target);
-bool KeyComparePartial(const char* * const input, const char* target);
+bool KeyMatches(const char* a, const char* b);
+bool KeyStartsWith(const char* * const a, const char* b);
 
 #endif
 

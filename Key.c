@@ -1,14 +1,14 @@
 /**
- * @file KeyCompare.c
+ * @file Key.c
  * @author Seb Madgwick
- * @brief Compares two JSON keys.
+ * @brief JSON key comparison.
  */
 
 //------------------------------------------------------------------------------
 // Includes
 
 #include <ctype.h>
-#include "KeyCompare.h"
+#include "Key.h"
 #include <stddef.h>
 
 //------------------------------------------------------------------------------
@@ -21,56 +21,57 @@ static inline char ToLower(const char character);
 // Functions
 
 /**
- * @brief Returns true if the input key matches the target key. The comparison
- * is not case-sensitive and non-alphanumeric characters will be ignored.
- * @param input Input key.
- * @param target Target key.
- * @return True if the input key matches the target key.
+ * @brief Returns true if key A matches key B. The comparison is not case-
+ * sensitive and non-alphanumeric characters will be ignored for the purposes of
+ * comparison.
+ * @param a Key A.
+ * @param b Key B.
+ * @return True if key A matches key B.
  */
-bool KeyCompare(const char* input, const char* target) {
+bool KeyMatches(const char* a, const char* b) {
     while (true) {
-        SkipNonAlphanumeric(&input);
-        SkipNonAlphanumeric(&target);
-        if (ToLower(*input) != ToLower(*target)) {
+        SkipNonAlphanumeric(&a);
+        SkipNonAlphanumeric(&b);
+        if (ToLower(*a) != ToLower(*b)) {
             return false;
         }
-        if ((*input == '\0') && (*target == '\0')) {
+        if ((*a == '\0') && (*b == '\0')) {
             return true;
         }
-        input++;
-        target++;
+        a++;
+        b++;
     }
 }
 
 /**
- * @brief Returns true if the input key start with the target key. The
- * comparison is not case-sensitive and non-alphanumeric characters will be
- * ignored. The input key pointer will be advanced to the first alphanumeric
+ * @brief Returns true if key A starts with key B. The comparison is not case-
+ * sensitive and non-alphanumeric characters will be ignored for the purposes
+ * of comparison. The key A pointer will be advanced to the first alphanumeric
  * character after the match.
- * @param input Input key.
- * @param target Target key.
- * @return True if the input key start with the target key.
+ * @param a Key A.
+ * @param b Key B.
+ * @return True if key A starts with B.
  */
-bool KeyComparePartial(const char* * const input, const char* target) {
+bool KeyStartsWith(const char* * const a, const char* b) {
     while (true) {
-        SkipNonAlphanumeric(input);
-        SkipNonAlphanumeric(&target);
-        if (*target == '\0') {
+        SkipNonAlphanumeric(a);
+        SkipNonAlphanumeric(&b);
+        if (*b == '\0') {
             return true;
         }
-        if (**input == '\0') {
+        if (**a == '\0') {
             return false;
         }
-        if (ToLower(**input) != ToLower(*target)) {
+        if (ToLower(**a) != ToLower(*b)) {
             return false;
         }
-        (*input)++;
-        target++;
+        (*a)++;
+        b++;
     }
 }
 
 /**
- * @brief Advances pointer to first alphanumeric character.
+ * @brief Advances the pointer to first alphanumeric character.
  * @param string String.
  */
 static inline void SkipNonAlphanumeric(const char* * const string) {
