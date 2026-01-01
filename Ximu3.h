@@ -1,8 +1,7 @@
 /**
  * @file Ximu3.h
  * @author Seb Madgwick
- * @brief Main header file for the x-IMU3 Device library. This is the only file
- * that needs to be included when using the library.
+ * @brief Main header file for the x-IMU3 Device library.
  */
 
 #ifndef XIMU3_H
