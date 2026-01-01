@@ -1,5 +1,5 @@
 /**
- * @file Ximu3Settings.h
+* @file Ximu3Settings.h
  * @author Seb Madgwick
  * @brief x-IMU3 settings.
  */
@@ -39,6 +39,7 @@ const Ximu3SettingsValues* Ximu3SettingsGet(const Ximu3Settings * const settings
 void Ximu3SettingsSet(Ximu3Settings * const settings, const Ximu3SettingsIndex index, const void* const value, const bool overrideReadOnly);
 void Ximu3SettingsSave(const Ximu3Settings * const settings);
 bool Ximu3SettingsApplyPending(Ximu3Settings * const settings, const Ximu3SettingsIndex index);
+void Ximu3SettingsClearApplyPending(Ximu3Settings * const settings);
 
 #endif
 

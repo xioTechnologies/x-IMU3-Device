@@ -180,17 +180,25 @@ void Ximu3SettingsSave(const Ximu3Settings * const settings) {
 }
 
 /**
- * @brief Returns true if apply pending. Calling this function will reset the
- * flag.
+ * @brief Returns true if apply pending.
  * @param settings Settings.
  * @param index Index.
  * @return True if apply pending.
  */
 bool Ximu3SettingsApplyPending(Ximu3Settings * const settings, const Ximu3SettingsIndex index) {
     const Metadata metadata = MetadataGet(settings, index);
-    const bool applied = *metadata.applied;
-    *metadata.applied = true;
-    return applied == false;
+    return *metadata.applied == false;
+}
+
+/**
+ * @brief Clears applied pending.
+ * @param settings Settings.
+ */
+void Ximu3SettingsClearApplyPending(Ximu3Settings * const settings) {
+    for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
+        const Metadata metadata = MetadataGet(settings, index);
+        *metadata.applied = true;
+    }
 }
 
 //------------------------------------------------------------------------------
