@@ -57,7 +57,7 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
 void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved) {
 
     // Loads defaults
-    for (size_t index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
+    for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
         const Metadata metadata = MetadataGet(settings, index);
         if (metadata.preserved && (overwritePreserved == false)) {
             continue;
