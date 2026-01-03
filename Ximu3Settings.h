@@ -1,5 +1,5 @@
 /**
-* @file Ximu3Settings.h
+ * @file Ximu3Settings.h
  * @author Seb Madgwick
  * @brief x-IMU3 settings.
  */
