@@ -118,7 +118,7 @@ with open("Ximu3Definitions.c", "w") as file:
     file.write(contents)
 
 # Generate Metadata.h
-type = [title_case(s["declaration"].split()[0].replace("_t", "")) + ("Array" if "[" in s["declaration"] else "") for s in settings]
+type = ["String" if "char name[" in s["declaration"] else title_case(s["declaration"].split()[0].replace("_t", "")) for s in settings]
 type = list(set(type))  # remove duplicates
 type.sort()  # sort alphabetically
 type = "\n".join([f"    MetadataType{t}," for t in type])
@@ -164,7 +164,7 @@ names = "\n".join([f'    "{title_case(s["name"])}",' for s in settings])
 
 keys = "\n".join([f'    "{snake_case(s["name"])}",' for s in settings])
 
-types = "\n".join([f"    MetadataType{title_case(s['declaration'].split()[0].replace('_t', '')) + ('Array' if '[' in s['declaration'] else '')}," for s in settings])
+types = "\n".join([f"    MetadataType{"String" if "char name[" in s["declaration"] else title_case(s["declaration"].split()[0].replace("_t", ""))}," for s in settings])
 
 sizes = "\n".join([f"    sizeof (((Ximu3SettingsValues *) 0)->{camel_case(s['name'])})," for s in settings])
 

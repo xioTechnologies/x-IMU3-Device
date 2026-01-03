@@ -11,8 +11,8 @@
 
 typedef enum {
     MetadataTypeBool,
-    MetadataTypeCharArray,
     MetadataTypeFloat,
+    MetadataTypeString,
     MetadataTypeUint32,
 } MetadataType;
 

@@ -17,8 +17,8 @@
 // Function declarations
 
 static void SetValue(const Metadata * const metadata, const void* const value);
-static void CopyString(char* const destination, const size_t destinationSize, const char* string);
 static bool IsNanOrInf(const float value);
+static void CopyString(char* const destination, const size_t destinationSize, const char* string);
 
 //------------------------------------------------------------------------------
 // Functions
@@ -97,7 +97,7 @@ void Ximu3SettingsSet(Ximu3Settings * const settings, const Ximu3SettingsIndex i
     }
 
     // Do nothing if value unchanged
-    if ((metadata.type == MetadataTypeCharArray) && (strncmp(metadata.value, value, metadata.size) == 0)) {
+    if ((metadata.type == MetadataTypeString) && (strncmp(metadata.value, value, metadata.size) == 0)) {
         return;
     } else if (memcmp(metadata.value, value, metadata.size) == 0) {
         return;
@@ -124,17 +124,26 @@ static void SetValue(const Metadata * const metadata, const void* const value) {
         case MetadataTypeUint32:
             memcpy(metadata->value, value, metadata->size);
             return;
-        case MetadataTypeCharArray:
-            CopyString(metadata->value, metadata->size, value);
-            return;
         case MetadataTypeFloat:
             if (IsNanOrInf(*((float*) value))) {
                 break;
             }
             memcpy(metadata->value, value, metadata->size);
             return;
+        case MetadataTypeString:
+            CopyString(metadata->value, metadata->size, value);
+            return;
     }
     memcpy(metadata->value, metadata->defaultValue, metadata->size);
+}
+
+/**
+ * @brief Returns true if NaN or Inf.
+ * @param value Value.
+ * @return True if NaN or Inf.
+ */
+static bool IsNanOrInf(const float value) {
+    return isnan(value) || isinf(value);
 }
 
 /**
@@ -158,15 +167,6 @@ static void CopyString(char* const destination, const size_t destinationSize, co
         string++;
     }
     destination[destinationSize - 1] = '\0';
-}
-
-/**
- * @brief Returns true if NaN or Inf.
- * @param value Value.
- * @return True if NaN or Inf.
- */
-static bool IsNanOrInf(const float value) {
-    return isnan(value) || isinf(value);
 }
 
 /**
