@@ -164,7 +164,7 @@ names = "\n".join([f'    "{title_case(s["name"])}",' for s in settings])
 
 keys = "\n".join([f'    "{snake_case(s["name"])}",' for s in settings])
 
-types = "\n".join([f"    MetadataType{"String" if "char name[" in s["declaration"] else title_case(s["declaration"].split()[0].replace("_t", ""))}," for s in settings])
+types = "\n".join([f"    MetadataType{'String' if 'char name[' in s['declaration'] else title_case(s['declaration'].split()[0].replace('_t', ''))}," for s in settings])
 
 sizes = "\n".join([f"    sizeof (((Ximu3SettingsValues *) 0)->{camel_case(s['name'])})," for s in settings])
 
