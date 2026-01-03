@@ -7,6 +7,7 @@
 //------------------------------------------------------------------------------
 // Includes
 
+#include <inttypes.h>
 #include "Key.h"
 #include "Metadata.h"
 #include <stdio.h>
@@ -78,7 +79,7 @@ void Ximu3SettingsJsonGetValue(Ximu3Settings * const settings, char* const desti
             snprintf(destination, destinationSize, "\"%s\"", (char*) metadata.value);
             break;
         case MetadataTypeUint32:
-            snprintf(destination, destinationSize, "%u", *(uint32_t*) metadata.value);
+            snprintf(destination, destinationSize, "%" PRIu32, *(uint32_t *) metadata.value);
             break;
     }
 }
