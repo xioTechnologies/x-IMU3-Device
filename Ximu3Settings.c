@@ -125,7 +125,7 @@ static void SetValue(const Metadata * const metadata, const void* const value) {
             memcpy(metadata->value, value, metadata->size);
             return;
         case MetadataTypeFloat:
-            if (IsNanOrInf(*((float*) value))) {
+            if (IsNanOrInf(*(float*) value)) {
                 break;
             }
             memcpy(metadata->value, value, metadata->size);
