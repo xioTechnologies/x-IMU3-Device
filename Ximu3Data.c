@@ -493,6 +493,9 @@ size_t Ximu3DataSerialAccessoryBinary(void* const destination, const size_t dest
  */
 size_t Ximu3DataSerialAccessoryAscii(void* const destination, const size_t destinationSize, const Ximu3DataSerialAccessory * const data) {
     size_t destinationIndex = snprintf(destination, destinationSize, "S,%" PRIu64 ",", data->timestamp);
+    if ((destinationIndex + data->numberOfBytes + 1) > destinationSize) {
+        return 0;
+    }
     for (size_t index = 0; index < data->numberOfBytes; index++) {
         const uint8_t byte = data->data[index];
         ((uint8_t*) destination)[destinationIndex++] = ((char) byte < 0) || (isprint(byte) == 0) ? '?' : byte;
