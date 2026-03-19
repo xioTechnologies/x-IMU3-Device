@@ -54,7 +54,7 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
  * @param settings Settings.
  * @param overwritePreserved True to overwrite preserved settings.
  */
-void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved) {
+void Ximu3SettingsLoadDefaults(Ximu3Settings * const settings, const bool overwritePreserved) {
 
     // Load defaults
     for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {

@@ -34,7 +34,7 @@ typedef struct {
 // Function declarations
 
 void Ximu3SettingsInitialise(Ximu3Settings * const settings);
-void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved);
+void Ximu3SettingsLoadDefaults(Ximu3Settings * const settings, const bool overwritePreserved);
 const Ximu3SettingsValues* Ximu3SettingsGet(const Ximu3Settings * const settings);
 void Ximu3SettingsSet(Ximu3Settings * const settings, const Ximu3SettingsIndex index, const void* const value, const bool overrideReadOnly);
 void Ximu3SettingsSave(const Ximu3Settings * const settings);

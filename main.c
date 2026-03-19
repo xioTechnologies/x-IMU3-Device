@@ -148,7 +148,7 @@ static void InitialiseEpilogue(void *const context) {
     (void) context; // avoid compiler warning
     const char *const nvmFirmwareVersion = Ximu3SettingsGet(&settings)->firmwareVersion;
     if (strspn(nvmFirmwareVersion, "?") == strlen(nvmFirmwareVersion)) {
-        Ximu3SettingsDefaults(&settings, true); // load defaults if NVM blank
+        Ximu3SettingsLoadDefaults(&settings, true); // load defaults if NVM blank
     }
 }
 
