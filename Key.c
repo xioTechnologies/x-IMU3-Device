@@ -9,7 +9,6 @@
 
 #include <ctype.h>
 #include "Key.h"
-#include <stddef.h>
 
 //------------------------------------------------------------------------------
 // Function declarations
