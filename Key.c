@@ -82,6 +82,7 @@ static inline void SkipNonAlphanumeric(const char* * const string) {
 /**
  * @brief Returns the lower-case character.
  * @param character Character.
+ * @return Lower-case character.
  */
 static inline char ToLower(const char character) {
     if (isalpha((unsigned char) character) == 0) {

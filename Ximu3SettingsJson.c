@@ -99,7 +99,8 @@ void Ximu3SettingsJsonGetObject(Ximu3Settings * const settings, char* const dest
 }
 
 /**
- * @brief Gets all settings as a single object.
+ * @brief Gets all settings as a single object formatted for a human-readable
+ * JSON file.
  * @param settings Settings.
  * @param destination Destination.
  * @param destinationSize Destination size.

@@ -50,13 +50,13 @@ void Ximu3SettingsInitialise(Ximu3Settings * const settings) {
 }
 
 /**
- * @brief Loads defaults.
+ * @brief Load defaults.
  * @param settings Settings.
  * @param overwritePreserved True to overwrite preserved settings.
  */
 void Ximu3SettingsDefaults(Ximu3Settings * const settings, const bool overwritePreserved) {
 
-    // Loads defaults
+    // Load defaults
     for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
         const Metadata metadata = MetadataGet(settings, index);
         if (metadata.preserved && (overwritePreserved == false)) {
@@ -191,7 +191,7 @@ bool Ximu3SettingsApplyPending(Ximu3Settings * const settings, const Ximu3Settin
 }
 
 /**
- * @brief Clears applied pending.
+ * @brief Clears apply pending.
  * @param settings Settings.
  */
 void Ximu3SettingsClearApplyPending(Ximu3Settings * const settings) {
