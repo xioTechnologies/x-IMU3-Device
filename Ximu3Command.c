@@ -262,7 +262,7 @@ static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3Com
                 return;
             }
             if (Ximu3SettingsIndexFrom(&index, integer) == Ximu3ResultOk) {
-                Ximu3SettingsJsonGetObject(bridge->settings, response.value, sizeof (response.value), integer);
+                Ximu3SettingsJsonGetObject(bridge->settings, response.value, sizeof (response.value), index);
             }
             Ximu3CommandRespond(&response);
             return;
