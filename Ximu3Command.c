@@ -326,7 +326,7 @@ Ximu3Result Ximu3CommandParseNumberU64(const char* * const value, Ximu3CommandRe
         return Ximu3ResultError;
     }
     for (size_t index = 0; index < strlen(string); index++) {
-        if (isdigit((int) string[index]) == 0) {
+        if (isdigit((unsigned char) string[index]) == 0) {
             Ximu3CommandRespondError(response, "Number must be a 64-bit unsigned integer");
             return Ximu3ResultError;
         }
