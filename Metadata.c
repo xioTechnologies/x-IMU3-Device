@@ -130,7 +130,7 @@ static void* GetValue(Ximu3Settings * const settings, const Ximu3SettingsIndex i
 }
 
 Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex index) {
-    const Metadata metaData = {
+    const Metadata metadata = {
         .name = names[index],
         .key = keys[index],
         .value = GetValue(settings, index),
@@ -141,5 +141,5 @@ Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex in
         .readOnly = readOnlys[index],
         .applied = &settings->applied[index],
     };
-    return metaData;
+    return metadata;
 }

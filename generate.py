@@ -10,11 +10,11 @@ def split_words(string: str) -> list[str]:
 
 
 def camel_case(string: str) -> str:
-    return "".join([w.upper() if len(w) == 2 and w.isupper() else w.lower() if i == 0 else w.capitalize() for i, w in enumerate(split_words(string))])
+    return "".join(w.lower() if i == 0 else w.capitalize() for i, w in enumerate(split_words(string)))
 
 
 def pascal_case(string: str) -> str:
-    return "".join([w.upper() if len(w) == 2 and w == w.upper() else w.lower().capitalize() for w in split_words(string)])
+    return "".join(w.lower().capitalize() for w in split_words(string))
 
 
 def title_case(string: str) -> str:
@@ -221,7 +221,7 @@ static void* GetValue(Ximu3Settings * const settings, const Ximu3SettingsIndex i
 }}
 
 Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex index) {{
-    const Metadata metaData = {{
+    const Metadata metadata = {{
         .name = names[index],
         .key = keys[index],
         .value = GetValue(settings, index),
@@ -232,7 +232,7 @@ Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex in
         .readOnly = readOnlys[index],
         .applied = &settings->applied[index],
     }};
-    return metaData;
+    return metadata;
 }}
 """
 
