@@ -177,7 +177,7 @@ static void Error(const char *const error, void *const context) {
 
 static void Ping(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
     (void) context; // avoid compiler warning
-    if (Ximu3CommandParseNull(value, response) != 0) {
+    if (Ximu3CommandParseNull(value, response) != Ximu3ResultOk) {
         return;
     }
     Ximu3CommandRespondPing(response, Ximu3SettingsGet(&settings)->deviceName, Ximu3SettingsGet(&settings)->serialNumber);
@@ -185,7 +185,7 @@ static void Ping(const char * *const value, Ximu3CommandResponse *const response
 
 static void Factory(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
     (void) context; // avoid compiler warning
-    if (Ximu3CommandParseNull(value, response) != 0) {
+    if (Ximu3CommandParseNull(value, response) != Ximu3ResultOk) {
         return;
     }
     factoryMode = true;
@@ -194,7 +194,7 @@ static void Factory(const char * *const value, Ximu3CommandResponse *const respo
 
 static void Shutdown(const char * *const value, Ximu3CommandResponse *const response, void *const context) {
     (void) context; // avoid compiler warning
-    if (Ximu3CommandParseNull(value, response) != 0) {
+    if (Ximu3CommandParseNull(value, response) != Ximu3ResultOk) {
         return;
     }
     shutdown = true;
