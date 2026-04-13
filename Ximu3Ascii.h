@@ -16,22 +16,35 @@
 //------------------------------------------------------------------------------
 // Definitions
 
+// Sensors
 #define XIMU3_ASCII_ID_INERTIAL             'I'
 #define XIMU3_ASCII_ID_MAGNETOMETER         'M'
 #define XIMU3_ASCII_ID_HIGH_G_ACCELEROMETER 'H'
+#define XIMU3_ASCII_ID_PRESSURE             'P' /* reserved for future use */
+
+// AHRS
 #define XIMU3_ASCII_ID_QUATERNION           'Q'
 #define XIMU3_ASCII_ID_ROTATION_MATRIX      'R'
 #define XIMU3_ASCII_ID_EULER_ANGLES         'A'
 #define XIMU3_ASCII_ID_LINEAR_ACCELERATION  'L'
 #define XIMU3_ASCII_ID_EARTH_ACCELERATION   'E'
+#define XIMU3_ASCII_ID_DELTA                'D' /* reserved for future use */
 #define XIMU3_ASCII_ID_AHRS_STATUS          'U'
+#define XIMU3_ASCII_ID_MAGNETIC_COMPASS     'K' /* reserved for future use */
+
+// External
+#define XIMU3_ASCII_ID_GNSS                 'G' /* reserved for future use */
 #define XIMU3_ASCII_ID_SERIAL_ACCESSORY     'S'
 #define XIMU3_ASCII_ID_SYNC                 'Y'
 #define XIMU3_ASCII_ID_LTC                  'C'
+
+// Status
 #define XIMU3_ASCII_ID_TEMPERATURE          'T'
 #define XIMU3_ASCII_ID_BATTERY              'B'
 #define XIMU3_ASCII_ID_RSSI                 'W'
 #define XIMU3_ASCII_ID_BUTTON               'O'
+
+// System
 #define XIMU3_ASCII_ID_NOTIFICATION         'N'
 #define XIMU3_ASCII_ID_ERROR                'F'
 
