@@ -222,6 +222,36 @@ size_t Ximu3BinarySerialAccessory(void* const destination, const size_t destinat
 }
 
 /**
+ * @brief Writes a binary sync data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3BinarySync(void* const destination, const size_t destinationSize, const Ximu3DataSync * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_SYNC, data->timestamp);
+    WriteFloat(destination, destinationSize, &destinationIndex, (float) data->edge);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
+
+/**
+ * @brief Writes a binary LTC data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3BinaryLtc(void* const destination, const size_t destinationSize, const Ximu3DataLtc * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_LTC, data->timestamp);
+    WriteString(destination, destinationSize, &destinationIndex, data->timecode);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
+
+/**
  * @brief Writes a binary temperature data message.
  * @param destination Destination.
  * @param destinationSize Destination size.
@@ -269,6 +299,20 @@ size_t Ximu3BinaryRssi(void* const destination, const size_t destinationSize, co
     return destinationIndex;
 }
 
+/**
+ * @brief Writes a binary button data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3BinaryButton(void* const destination, const size_t destinationSize, const Ximu3DataButton * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_BUTTON, data->timestamp);
+    WriteFloat(destination, destinationSize, &destinationIndex, (float) data->state);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
 
 /**
  * @brief Writes a binary notification data message.

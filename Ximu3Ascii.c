@@ -214,6 +214,36 @@ size_t Ximu3AsciiSerialAccessory(void* const destination, const size_t destinati
 }
 
 /**
+ * @brief Writes an ASCII sync data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3AsciiSync(void* const destination, const size_t destinationSize, const Ximu3DataSync * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_SYNC, data->timestamp);
+    WriteFloat(destination, destinationSize, &destinationIndex, (float) data->edge);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
+
+/**
+ * @brief Writes an ASCII LTC data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3AsciiLtc(void* const destination, const size_t destinationSize, const Ximu3DataLtc * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_LTC, data->timestamp);
+    WriteString(destination, destinationSize, &destinationIndex, data->timecode);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
+
+/**
  * @brief Writes an ASCII temperature data message.
  * @param destination Destination.
  * @param destinationSize Destination size.
@@ -261,6 +291,20 @@ size_t Ximu3AsciiRssi(void* const destination, const size_t destinationSize, con
     return destinationIndex;
 }
 
+/**
+ * @brief Writes an ASCII button data message.
+ * @param destination Destination.
+ * @param destinationSize Destination size.
+ * @param data Data.
+ * @return Message size.
+ */
+size_t Ximu3AsciiButton(void* const destination, const size_t destinationSize, const Ximu3DataButton * const data) {
+    size_t destinationIndex = 0;
+    WriteHeader(destination, destinationSize, &destinationIndex, XIMU3_ASCII_ID_BUTTON, data->timestamp);
+    WriteFloat(destination, destinationSize, &destinationIndex, (float) data->state);
+    WriteTermination(destination, destinationSize, &destinationIndex);
+    return destinationIndex;
+}
 
 /**
  * @brief Writes an ASCII notification data message.
