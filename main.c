@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Test.h"
 #include "Ximu3.h"
 
 //------------------------------------------------------------------------------
@@ -88,7 +89,8 @@ int main(void) {
     while (shutdown == false) {
         Ximu3CommandTasks(&bridge);
     }
-    return EXIT_SUCCESS;
+
+    return Test();
 }
 
 static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const context) {

@@ -49,7 +49,7 @@ bool KeyMatches(const char* a, const char* b) {
  * character after the match.
  * @param a Key A.
  * @param b Key B.
- * @return True if key A starts with B.
+ * @return True if key A starts with key B.
  */
 bool KeyStartsWith(const char* * const a, const char* b) {
     while (true) {

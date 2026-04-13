@@ -53,19 +53,17 @@ contents = f"""\
 
 {includes}
 
-#define XIMU3_READ_SIZE 2048
+#define XIMU3_MAX_KEY_LENGTH ({max([len(s["name"]) for s in settings])})
 
-#define XIMU3_KEY_SIZE 64
+#define XIMU3_NUMBER_OF_SETTINGS ({len(settings)})
 
-#define XIMU3_VALUE_SIZE 512
+#define XIMU3_TERMINATION '\\n'
 
-#define XIMU3_OBJECT_SIZE 1024
+#define XIMU3_TERMINATION_STRING "\\n"
 
-#define XIMU3_MAX_KEY_LENGTH {max([len(s["name"]) for s in settings])}
+#define XIMU3_MUX_ID '^'
 
-#define XIMU3_NUMBER_OF_SETTINGS {len(settings)}
-
-#define XIMU3_MUX_HEADER_SIZE 2
+#define XIMU3_MUX_BROADCAST XIMU3_MUX_ID
 
 typedef enum {{
     Ximu3ResultOk,
