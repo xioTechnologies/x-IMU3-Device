@@ -136,6 +136,22 @@ typedef struct {
 } Ximu3DataSerialAccessory;
 
 /**
+ * @brief Sync data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    bool edge;
+} Ximu3DataSync;
+
+/**
+ * @brief LTC data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    const char* timecode;
+} Ximu3DataLtc;
+
+/**
  * @brief Temperature data message.
  */
 typedef struct {
@@ -161,6 +177,14 @@ typedef struct {
     float percentage;
     float power;
 } Ximu3DataRssi;
+
+/**
+ * @brief Button data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    bool state;
+} Ximu3DataButton;
 
 /**
  * @brief Notification data message.
