@@ -34,7 +34,7 @@ static void Receive(Ximu3CommandBridge * const bridge, Ximu3CommandInterface * c
 static void ParseMessage(const Ximu3CommandBridge * const bridge, const Ximu3CommandInterface * const interface, uint8_t * const message, const size_t messageSize);
 static void ParseMux(const Ximu3CommandBridge * const bridge, const Ximu3CommandInterface * const interface, const uint8_t * const message, const size_t messageSize);
 static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3CommandInterface * const interface, uint8_t * const message, const size_t messageSize);
-static void Error(const Ximu3CommandBridge * const bridge, const char* format, ...);
+static void Error(const Ximu3CommandBridge * const bridge, const char* const format, ...);
 
 //------------------------------------------------------------------------------
 // Functions
@@ -247,7 +247,7 @@ static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3Com
                 return;
             }
             if (bridge->writeEpilogue != NULL) {
-                bridge->writeEpilogue(index, bridge->context);
+                bridge->writeEpilogue(index, metadata.value, bridge->context);
             }
             Ximu3SettingsJsonGetValue(bridge->settings, response.value, sizeof (response.value), index);
             Ximu3CommandRespond(&response);
@@ -410,7 +410,7 @@ void Ximu3CommandRespondError(Ximu3CommandResponse * const response, const char*
  * @param format Format.
  * @param ... Arguments.
  */
-static void Error(const Ximu3CommandBridge * const bridge, const char* format, ...) {
+static void Error(const Ximu3CommandBridge * const bridge, const char* const format, ...) {
     if (bridge->error == NULL) {
         return;
     }

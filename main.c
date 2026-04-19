@@ -31,7 +31,7 @@ static void DefaultsEpilogue(void *const context);
 
 static bool OverrideReadOnly(void *const context);
 
-static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context);
+static void WriteEpilogue(const Ximu3SettingsIndex index, const void *const value, void *const context);
 
 static void Error(const char *const error, void *const context);
 
@@ -165,8 +165,9 @@ static bool OverrideReadOnly(void *const context) {
     return factoryMode;
 }
 
-static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context) {
+static void WriteEpilogue(const Ximu3SettingsIndex index, const void *const value, void *const context) {
     (void) index; // avoid compiler warning
+    (void) value; // avoid compiler warning
     (void) context; // avoid compiler warning
     Ximu3SettingsSave(&settings);
 }
