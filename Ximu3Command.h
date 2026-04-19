@@ -59,7 +59,7 @@ typedef struct {
     const int numberOfCommands;
     Ximu3Settings * const settings; // NULL if unused
     bool (*const overrideReadOnly) (void* const context); // NULL if unused
-    void (*const writeEpilogue) (const Ximu3SettingsIndex index, void* const context); // NULL if unused
+    void (*const writeEpilogue) (const Ximu3SettingsIndex index, const void* const value, void* const context); // NULL if unused
     void (*const unknown) (const char* const key, const char* * const value, Ximu3CommandResponse * const response, void* const context); // NULL if unused
     Ximu3Result(*const mux)(const Ximu3CommandInterface * const interface, const uint8_t channel, const void* const message, const size_t messageSize); // NULL if unused
     void (*const error) (const char* const error, void* const context); // NULL if unused
