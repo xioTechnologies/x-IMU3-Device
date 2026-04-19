@@ -106,7 +106,7 @@ void Ximu3SettingsJsonGetObject(Ximu3Settings * const settings, char* const dest
  * @param destination Destination.
  * @param destinationSize Destination size.
  */
-void Ximu3SettingsJsonGetObjectAll(Ximu3Settings * const settings, char* const destination, const size_t destinationSize) {
+void Ximu3SettingsJsonGetFile(Ximu3Settings * const settings, char* const destination, const size_t destinationSize) {
 
     // Object start
     snprintf(destination, destinationSize, "{\n");
@@ -261,7 +261,8 @@ static JsonResult ParseUint32(Ximu3Settings * const settings, const Ximu3Setting
 }
 
 /**
- * @brief Sets the values from an object.
+ * @brief Sets the values from an object. The object may contain multiple
+ * key/value pairs
  * @param settings Settings.
  * @param object_ Object.
  * @param overrideReadOnly True to override read-only.

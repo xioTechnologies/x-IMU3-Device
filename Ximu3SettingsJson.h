@@ -22,7 +22,7 @@ Ximu3Result Ximu3SettingsJsonGetIndex(Ximu3Settings * const settings, Ximu3Setti
 void Ximu3SettingsJsonGetKey(Ximu3Settings * const settings, char* const destination, const size_t destinationSize, const Ximu3SettingsIndex index);
 void Ximu3SettingsJsonGetValue(Ximu3Settings * const settings, char* const destination, const size_t destinationSize, const Ximu3SettingsIndex index);
 void Ximu3SettingsJsonGetObject(Ximu3Settings * const settings, char* const destination, const size_t destinationSize, const Ximu3SettingsIndex index);
-void Ximu3SettingsJsonGetObjectAll(Ximu3Settings * const settings, char* const destination, const size_t destinationSize);
+void Ximu3SettingsJsonGetFile(Ximu3Settings * const settings, char* const destination, const size_t destinationSize);
 JsonResult Ximu3SettingsJsonSetKeyValue(Ximu3Settings * const settings, const char* const key, const char* * const value, const bool overrideReadOnly);
 JsonResult Ximu3SettingsJsonSetObject(Ximu3Settings * const settings, const char* object_, const bool overrideReadOnly);
 
