@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Test.h"
 #include "Ximu3.h"
 
 //------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ static void DefaultsEpilogue(void *const context);
 
 static bool OverrideReadOnly(void *const context);
 
-static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context);
+static void WriteEpilogue(const Ximu3SettingsIndex index, const void *const value, void *const context);
 
 static void Error(const char *const error, void *const context);
 
@@ -88,7 +89,8 @@ int main(void) {
     while (shutdown == false) {
         Ximu3CommandTasks(&bridge);
     }
-    return EXIT_SUCCESS;
+
+    return Test();
 }
 
 static size_t UsbRead(void *const destination, size_t numberOfBytes, void *const context) {
@@ -163,8 +165,9 @@ static bool OverrideReadOnly(void *const context) {
     return factoryMode;
 }
 
-static void WriteEpilogue(const Ximu3SettingsIndex index, void *const context) {
+static void WriteEpilogue(const Ximu3SettingsIndex index, const void *const value, void *const context) {
     (void) index; // avoid compiler warning
+    (void) value; // avoid compiler warning
     (void) context; // avoid compiler warning
     Ximu3SettingsSave(&settings);
 }

@@ -14,16 +14,20 @@
 extern "C" {
 #endif
 
+#include "Ximu3Ascii.h"
+#include "Ximu3Binary.h"
 #include "Ximu3Command.h"
 #include "Ximu3Data.h"
 #include "Ximu3Definitions.h"
 #include "Ximu3Settings.h"
 #include "Ximu3SettingsJson.h"
+#include "Ximu3Size.h"
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
 //------------------------------------------------------------------------------
 // End of file

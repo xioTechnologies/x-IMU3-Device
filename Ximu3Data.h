@@ -41,6 +41,16 @@ typedef struct {
 } Ximu3DataMagnetometer;
 
 /**
+ * @brief High-g accelerometer data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    float x;
+    float y;
+    float z;
+} Ximu3DataHighGAccelerometer;
+
+/**
  * @brief Quaternion data message.
  */
 typedef struct {
@@ -117,14 +127,29 @@ typedef struct {
 } Ximu3DataAhrsStatus;
 
 /**
- * @brief High-g accelerometer data message.
+ * @brief Serial accessory data message.
  */
 typedef struct {
     uint64_t timestamp;
-    float x;
-    float y;
-    float z;
-} Ximu3DataHighGAccelerometer;
+    const uint8_t* data;
+    size_t numberOfBytes;
+} Ximu3DataSerialAccessory;
+
+/**
+ * @brief Sync data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    bool edge;
+} Ximu3DataSync;
+
+/**
+ * @brief LTC data message.
+ */
+typedef struct {
+    uint64_t timestamp;
+    const char* timecode;
+} Ximu3DataLtc;
 
 /**
  * @brief Temperature data message.
@@ -154,20 +179,19 @@ typedef struct {
 } Ximu3DataRssi;
 
 /**
- * @brief Serial accessory data message.
+ * @brief Button data message.
  */
 typedef struct {
     uint64_t timestamp;
-    const uint8_t* data;
-    size_t numberOfBytes;
-} Ximu3DataSerialAccessory;
+    bool state;
+} Ximu3DataButton;
 
 /**
  * @brief Notification data message.
  */
 typedef struct {
     uint64_t timestamp;
-    const char* string;
+    const char* notification;
 } Ximu3DataNotification;
 
 /**
@@ -175,42 +199,8 @@ typedef struct {
  */
 typedef struct {
     uint64_t timestamp;
-    const char* string;
+    const char* error;
 } Ximu3DataError;
-
-//------------------------------------------------------------------------------
-// Function declarations
-
-size_t Ximu3DataInertialBinary(void* const destination, const size_t destinationSize, const Ximu3DataInertial * const data);
-size_t Ximu3DataInertialAscii(void* const destination, const size_t destinationSize, const Ximu3DataInertial * const data);
-size_t Ximu3DataMagnetometerBinary(void* const destination, const size_t destinationSize, const Ximu3DataMagnetometer * const data);
-size_t Ximu3DataMagnetometerAscii(void* const destination, const size_t destinationSize, const Ximu3DataMagnetometer * const data);
-size_t Ximu3DataQuaternionBinary(void* const destination, const size_t destinationSize, const Ximu3DataQuaternion * const data);
-size_t Ximu3DataQuaternionAscii(void* const destination, const size_t destinationSize, const Ximu3DataQuaternion * const data);
-size_t Ximu3DataRotationMatrixBinary(void* const destination, const size_t destinationSize, const Ximu3DataRotationMatrix * const data);
-size_t Ximu3DataRotationMatrixAscii(void* const destination, const size_t destinationSize, const Ximu3DataRotationMatrix * const data);
-size_t Ximu3DataEulerAnglesBinary(void* const destination, const size_t destinationSize, const Ximu3DataEulerAngles * const data);
-size_t Ximu3DataEulerAnglesAscii(void* const destination, const size_t destinationSize, const Ximu3DataEulerAngles * const data);
-size_t Ximu3DataLinearAccelerationBinary(void* const destination, const size_t destinationSize, const Ximu3DataLinearAcceleration * const data);
-size_t Ximu3DataLinearAccelerationAscii(void* const destination, const size_t destinationSize, const Ximu3DataLinearAcceleration * const data);
-size_t Ximu3DataEarthAccelerationBinary(void* const destination, const size_t destinationSize, const Ximu3DataEarthAcceleration * const data);
-size_t Ximu3DataEarthAccelerationAscii(void* const destination, const size_t destinationSize, const Ximu3DataEarthAcceleration * const data);
-size_t Ximu3DataAhrsStatusBinary(void* const destination, const size_t destinationSize, const Ximu3DataAhrsStatus * const data);
-size_t Ximu3DataAhrsStatusAscii(void* const destination, const size_t destinationSize, const Ximu3DataAhrsStatus * const data);
-size_t Ximu3DataHighGAccelerometerBinary(void* const destination, const size_t destinationSize, const Ximu3DataHighGAccelerometer * const data);
-size_t Ximu3DataHighGAccelerometerAscii(void* const destination, const size_t destinationSize, const Ximu3DataHighGAccelerometer * const data);
-size_t Ximu3DataTemperatureBinary(void* const destination, const size_t destinationSize, const Ximu3DataTemperature * const data);
-size_t Ximu3DataTemperatureAscii(void* const destination, const size_t destinationSize, const Ximu3DataTemperature * const data);
-size_t Ximu3DataBatteryBinary(void* const destination, const size_t destinationSize, const Ximu3DataBattery * const data);
-size_t Ximu3DataBatteryAscii(void* const destination, const size_t destinationSize, const Ximu3DataBattery * const data);
-size_t Ximu3DataRssiBinary(void* const destination, const size_t destinationSize, const Ximu3DataRssi * const data);
-size_t Ximu3DataRssiAscii(void* const destination, const size_t destinationSize, const Ximu3DataRssi * const data);
-size_t Ximu3DataSerialAccessoryBinary(void* const destination, const size_t destinationSize, const Ximu3DataSerialAccessory * const data);
-size_t Ximu3DataSerialAccessoryAscii(void* const destination, const size_t destinationSize, const Ximu3DataSerialAccessory * const data);
-size_t Ximu3DataNotificationBinary(void* const destination, const size_t destinationSize, const Ximu3DataNotification * const data);
-size_t Ximu3DataNotificationAscii(void* const destination, const size_t destinationSize, const Ximu3DataNotification * const data);
-size_t Ximu3DataErrorBinary(void* const destination, const size_t destinationSize, const Ximu3DataError * const data);
-size_t Ximu3DataErrorAscii(void* const destination, const size_t destinationSize, const Ximu3DataError * const data);
 
 #endif
 

@@ -159,7 +159,7 @@ static void CopyString(char* const destination, const size_t destinationSize, co
             destination[index] = *string;
             continue;
         }
-        if ((*string < 0) || (isprint(*string) == 0)) {
+        if (((unsigned char) *string < 0x20) || ((unsigned char) *string > 0x7E)) {
             destination[index] = '?';
         } else {
             destination[index] = *string;

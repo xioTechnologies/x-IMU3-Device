@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include "Ximu3Definitions.h"
 #include "Ximu3Settings.h"
+#include "Ximu3Size.h"
 
 //------------------------------------------------------------------------------
 // Definitions
@@ -26,7 +27,7 @@ typedef struct {
     const char* const name;
     size_t(*const read)(void* const destination, size_t numberOfBytes, void* const context);
     void (*const write) (const void* const data, const size_t numberOfBytes, void* const context);
-    uint8_t buffer[XIMU3_OBJECT_SIZE]; // private
+    uint8_t buffer[XIMU3_SIZE_COMMAND]; // private
     size_t index; // private
 } Ximu3CommandInterface;
 
@@ -35,8 +36,8 @@ typedef struct {
  */
 typedef struct {
     const Ximu3CommandInterface* interface;
-    char key[XIMU3_KEY_SIZE];
-    char value[XIMU3_VALUE_SIZE];
+    char key[XIMU3_SIZE_KEY];
+    char value[XIMU3_SIZE_VALUE];
     void* context;
 } Ximu3CommandResponse;
 
@@ -58,7 +59,7 @@ typedef struct {
     const int numberOfCommands;
     Ximu3Settings * const settings; // NULL if unused
     bool (*const overrideReadOnly) (void* const context); // NULL if unused
-    void (*const writeEpilogue) (const Ximu3SettingsIndex index, void* const context); // NULL if unused
+    void (*const writeEpilogue) (const Ximu3SettingsIndex index, const void* const value, void* const context); // NULL if unused
     void (*const unknown) (const char* const key, const char* * const value, Ximu3CommandResponse * const response, void* const context); // NULL if unused
     Ximu3Result(*const mux)(const Ximu3CommandInterface * const interface, const uint8_t channel, const void* const message, const size_t messageSize); // NULL if unused
     void (*const error) (const char* const error, void* const context); // NULL if unused
@@ -76,7 +77,7 @@ Ximu3Result Ximu3CommandParseNumberU64(const char* * const value, Ximu3CommandRe
 Ximu3Result Ximu3CommandParseBoolean(const char* * const value, Ximu3CommandResponse * const response, bool * const boolean);
 Ximu3Result Ximu3CommandParseNull(const char* * const value, Ximu3CommandResponse * const response);
 void Ximu3CommandRespond(Ximu3CommandResponse * const response);
-void Ximu3CommandRespondPing(Ximu3CommandResponse * const response, const char* const name, const char* const sn);
+void Ximu3CommandRespondPing(Ximu3CommandResponse * const response, const char* const deviceName, const char* const serialNumber);
 void Ximu3CommandRespondError(Ximu3CommandResponse * const response, const char* const error);
 
 #endif
