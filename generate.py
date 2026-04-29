@@ -22,7 +22,7 @@ def title_case(string: str) -> str:
 
 
 def snake_case(string: str) -> str:
-    return "_".join([w.lower() for w in split_words(string)])
+    return "_".join(w.lower() for w in split_words(string))
 
 
 # Load Settings.json
@@ -38,11 +38,11 @@ for index in range(1, len(preserveds)):
         raise Exception("Preserved settings must be contiguous")
 
 # Generate Ximu3Definitions.h
-includes = "\n".join([f"#include {i}" for i in includes])
+includes = "\n".join(f"#include {i}" for i in includes)
 
-values = "\n".join([f"    {s['declaration'].replace('name', camel_case(s['name']))};" for s in settings])
+values = "\n".join(f"    {s['declaration'].replace('name', camel_case(s['name']))};" for s in settings)
 
-index = "\n".join([f"    Ximu3SettingsIndex{pascal_case(s['name'])}," for s in settings])
+index = "\n".join(f"    Ximu3SettingsIndex{pascal_case(s['name'])}," for s in settings)
 
 contents = f"""\
 {preamble}
@@ -52,7 +52,7 @@ contents = f"""\
 
 {includes}
 
-#define XIMU3_MAX_KEY_LENGTH ({max([len(s["name"]) for s in settings])})
+#define XIMU3_MAX_KEY_LENGTH ({max(len(s["name"]) for s in settings)})
 
 #define XIMU3_NUMBER_OF_SETTINGS ({len(settings)})
 
@@ -86,13 +86,11 @@ Path("Ximu3Definitions.h").write_text(contents)
 
 # Generate Ximu3Definitions.c
 cases = "\n".join(
-    [
-        f"""\
+    f"""\
         case Ximu3SettingsIndex{pascal_case(s["name"])}:
             *index = Ximu3SettingsIndex{pascal_case(s["name"])};
             break;"""
-        for s in settings
-    ]
+    for s in settings
 )
 
 contents = f"""\
@@ -113,10 +111,10 @@ Ximu3Result Ximu3SettingsIndexFrom(Ximu3SettingsIndex * const index, const int i
 Path("Ximu3Definitions.c").write_text(contents)
 
 # Generate Metadata.h
-type = ["String" if "char name[" in s["declaration"] else title_case(s["declaration"].split()[0].replace("_t", "")) for s in settings]
+type = ("String" if "char name[" in s["declaration"] else title_case(s["declaration"].split()[0].replace("_t", "")) for s in settings)
 type = list(set(type))  # remove duplicates
 type.sort()  # sort alphabetically
-type = "\n".join([f"    MetadataType{t}," for t in type])
+type = "\n".join(f"    MetadataType{t}," for t in type)
 
 contents = f"""\
 {preamble}
@@ -154,25 +152,25 @@ Metadata MetadataGet(Ximu3Settings * const settings, const Ximu3SettingsIndex in
 Path("Metadata.h").write_text(contents)
 
 # Generate Metadata.c
-names = "\n".join([f'    "{title_case(s["name"])}",' for s in settings])
+names = "\n".join(f'    "{title_case(s["name"])}",' for s in settings)
 
-keys = "\n".join([f'    "{snake_case(s["name"])}",' for s in settings])
+keys = "\n".join(f'    "{snake_case(s["name"])}",' for s in settings)
 
-types = "\n".join([f"    MetadataType{'String' if 'char name[' in s['declaration'] else title_case(s['declaration'].split()[0].replace('_t', ''))}," for s in settings])
+types = "\n".join(f"    MetadataType{'String' if 'char name[' in s['declaration'] else title_case(s['declaration'].split()[0].replace('_t', ''))}," for s in settings)
 
-sizes = "\n".join([f"    sizeof (((Ximu3SettingsValues *) 0)->{camel_case(s['name'])})," for s in settings])
+sizes = "\n".join(f"    sizeof (((Ximu3SettingsValues *) 0)->{camel_case(s['name'])})," for s in settings)
 
-defaults = "\n".join([f"    (void*) (&({s['declaration'].replace(' name', '')}) {s['default']})," for s in settings])
+defaults = "\n".join(f"    (void*) (&({s['declaration'].replace(' name', '')}) {s['default']})," for s in settings)
 
-preserveds = "\n".join([f"    {str(bool(s.get('preserved'))).lower()}," for s in settings])
+preserveds = "\n".join(f"    {str(bool(s.get('preserved'))).lower()}," for s in settings)
 
-read_onlys = "\n".join([f"    {str(bool(s.get('preserved')) or bool(s.get('read-only'))).lower()}," for s in settings])
+read_onlys = "\n".join(f"    {str(bool(s.get('preserved')) or bool(s.get('read-only'))).lower()}," for s in settings)
 
 template = """\
         case label:
             return &settings->values.member;
 """
-cases = "".join([template.replace("label", f"Ximu3SettingsIndex{pascal_case(s['name'])}").replace("member", camel_case(s["name"])) for s in settings])
+cases = "".join(template.replace("label", f"Ximu3SettingsIndex{pascal_case(s['name'])}").replace("member", camel_case(s["name"])) for s in settings)
 
 contents = f"""\
 {preamble}
