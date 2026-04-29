@@ -174,6 +174,7 @@ JsonResult Ximu3SettingsJsonSetKeyValue(Ximu3Settings * const settings, const ch
     // Get index
     Ximu3SettingsIndex index;
     if (Ximu3SettingsJsonGetIndex(settings, &index, key) != Ximu3ResultOk) {
+        JsonParse(value); // skip value
         return JsonResultOk;
     }
 
