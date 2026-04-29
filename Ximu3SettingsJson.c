@@ -105,11 +105,18 @@ void Ximu3SettingsJsonGetObject(Ximu3Settings * const settings, char* const dest
  * @param settings Settings.
  * @param destination Destination.
  * @param destinationSize Destination size.
+ * @param preamble Preamble key/values. NULL if unused.
  */
-void Ximu3SettingsJsonGetFile(Ximu3Settings * const settings, char* const destination, const size_t destinationSize) {
+void Ximu3SettingsJsonGetFile(Ximu3Settings * const settings, char* const destination, const size_t destinationSize, const char* const preamble) {
 
     // Object start
     snprintf(destination, destinationSize, "{\n");
+
+    // Preamble
+    if (preamble != NULL) {
+        Append(destination, destinationSize, preamble);
+        Append(destination, destinationSize, "\n");
+    }
 
     // Key/value pairs
     for (int index = 0; index < XIMU3_NUMBER_OF_SETTINGS; index++) {
