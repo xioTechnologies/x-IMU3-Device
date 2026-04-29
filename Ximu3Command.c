@@ -284,7 +284,7 @@ static void ParseCommand(const Ximu3CommandBridge * const bridge, const Ximu3Com
  * @param response Response.
  * @param destination Destination.
  * @param destinationSize Destination size.
- * @param numberOfBytes Number of bytes in string. NULL if not required.
+ * @param numberOfBytes Number of bytes in string. NULL if unused.
  * @return Result.
  */
 Ximu3Result Ximu3CommandParseString(const char* * const value, Ximu3CommandResponse * const response, char* const destination, const size_t destinationSize, size_t * const numberOfBytes) {
