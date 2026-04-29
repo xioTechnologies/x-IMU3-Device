@@ -121,6 +121,19 @@ void Ximu3CommandReceive(const Ximu3CommandBridge * const bridge, const Ximu3Com
 }
 
 /**
+ * @brief Executes a command as if it were received by the interface.
+ * @param bridge Bridge.
+ * @param interface Interface.
+ * @param key Key.
+ * @param value Value. NULL for "null".
+ */
+void Ximu3CommandExecute(const Ximu3CommandBridge * const bridge, const Ximu3CommandInterface * const interface, const char* const key, const char* const value) {
+    char command[XIMU3_SIZE_COMMAND];
+    snprintf(command, sizeof (command), "{\"%s\":%s}\n", key, value == NULL ? "null" : value);
+    Ximu3CommandReceive(bridge, interface, command, strlen(command));
+}
+
+/**
  * @brief Parse message.
  * @param bridge Bridge.
  * @param interface Interface.
